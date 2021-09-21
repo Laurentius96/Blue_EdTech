@@ -105,16 +105,22 @@ console.log('a:'+array2[3].a);
 
 /* --------------------------------------- Operações
 
-!= diferente / negação;
-= recebe;
-== comparação;
-=== copmpara e verifica o tipo entre os comparados (str, num);
+|| -----> ou;
+$$ -----> e;
+(!=) ---> diferente / negação;
+(=) ----> recebe;
+(==) ---> comparação;
+(===) --> compara e verifica o tipo entre os comparados (str, num...);
+(>) ----> maior que;
+(<) ----> menor que;
+(>=) ---> maior ou igual;
+(<=) ---> menor ou igual; 
 
-+ ---> Soma;
-- ---> Subtração;
-* ---> Multiplicação;
-/ ---> Divisão;
-% ---> Resto da Divisão.
-
++ ------> Soma;
+- ------> Subtração;
+* ------> Multiplicação;
+/ ------> Divisão;
+% ------> Resto da Divisão.
+** -----> Exponencial
 
 */
