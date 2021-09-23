@@ -252,16 +252,36 @@ Valor do aluguel reajustado = R$ 1310,00
 
 console.log("\n-- Exercício 11 --");
 
-function aumentoAluguel(a,b){
+function aumentoAluguel(a,b) {
 
-    console.log(`Valor do aluguel atual é: R$${a.toFixed(2)}`);
-    console.log(`Valor do IGPM atual é: ${b.toFixed(2)}%`);
+  let ajuste = ( a + (a * (b/100))
 
-    let ajuste = a + (a * (b/100);
-
-    return console.log(`Valor do aluguel reajustado é: R$ ${ajuste.toFixed(2)}`);
-    
+  return ajuste
 }
 
-var aluguel = aumentoAluguel(prompt("O aluguel atual é: "));
-var aluguel = aumentoAluguel(prompt("O aluguel atual é: "));
+var aluguel = prompt("O aluguel atual é: ");
+var igpm = prompt("O IGPM atual é: ");
+
+var valor = aumentoAluguel(aluguel, igpm);
+
+console.log(`Valor do aluguel reajustado é: R$ ${valor.toFixed(2)}`);
+
+/*Exercício 12- Calculadora de aumento de aluguel - Parte 2
+
+Altere sua calculadora (feita na parte 1) para receber além do valor do aluguel,o percentual do reajuste no formato 99%.
+
+Dica: Descubra uma forma de transformar o percentual recebido em um
+número para efetuar o cálculo.
+Exemplo:
+Valor do aluguel = 1000
+Percentual do reajuste = 31%
+Valor do aluguel reajustado = R$1310,00
+
+*/
+
+let valorAluguel = +prompt("Digite o valor o vlaor do aluguel: ");
+let igpm = prompt("Digite o percentual do ajuste: ");
+let igpmAjustado = (+igpm.replace("%", ""));
+var conta = valorAluguel + (valorAluguel * igpmAjustado/100);
+
+console.log(`Valor do aluguel reajustado é: R$ ${conta.toFixed(2)}`);
