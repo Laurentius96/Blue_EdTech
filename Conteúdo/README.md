@@ -8,7 +8,7 @@
 
 > Aula 01 - Variáveis, operadores matemáticos, prompt(), console.log();
 
-> Aula 03 - If & Else, uso da biblioteca Math, uso do .random(), Concatenação de Strings, Números x Strings, Fatiamento de Strings ;
+> Aula 03 - If & Else, uso da biblioteca Math, uso do .random(), Concatenação de Strings, Números x Strings, Fatiamento de Strings, Operadores Lógicos, Booleanos, .toLocaleUpperCase(), .slice().
 
 > Aula 05 - Funções;
 
