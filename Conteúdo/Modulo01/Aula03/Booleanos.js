@@ -54,12 +54,15 @@ Booleanos
 
 */
 
+// // ----------------------------------------------------------- Tipo:
 let eFalso = false;
 let eVerdadeiro = true;
 
 console.log(typeof(eFalso));
 console.log(typeof(eVerdade));
 
+
+// // ----------------------------------------------------------- Boolean:
 let a = Boolean(“Oi”);
     Console.log(a); 
     console.log(typeof(a); 
