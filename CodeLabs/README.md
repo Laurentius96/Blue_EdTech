@@ -7,9 +7,9 @@
 ## Módulo 01 - Lógica de Programação:
 
 
-> Aula 02 - Variáveis, operadores matemáticos, prompt(), console.log();
+> Aula 02 - Variáveis, operadores matemáticos, prompt(), console.log(), arraw;
 
-> Aula 04 - If & Else, uso da biblioteca Math, uso do .random();
+> Aula 04 - If & Else, uso da biblioteca Math, uso do .random(), .slice(), .toLowerCase(), .toUpperCase();
 
 > Aula 06 - Listas/Laços de Repetição em Java Script;
 
