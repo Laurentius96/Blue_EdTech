@@ -13,22 +13,22 @@ Agora implemente a funcionalidade de não aceitar o número 0, no input.
 
 const prompt = require("prompt-sync")(); // permite usar o prompt
 
-console.log(`Seu número é POSITIVO ou NEGATIVO?\n`);
+var contador = 0;
+var num;
 
-var contador;
+console.log(`\nSeu número é POSITIVO ou NEGATIVO?\n`);
 
-while ((contador = 0)) {
-  let num = prompt("Digite algum número: ");
+while (contador == 0) {
+  num = prompt("Digite algum número: ");
   if (num == 0 || num == "" || num == " ") {
     console.log("Por favor digite um número válido...");
-    contador = 1;
   } else {
-    if (num > 0) {
-      console.log(`Seu número é POSITIVO!!\n`);
-      contador++;
-    } else {
-      console.log("Seu número é NEGATIVO!!\n");
-      contador++;
-    }
+    contador ++;
   }
+}
+
+if (num > 0) {
+  console.log(`\nSeu número é POSITIVO!!\n`);
+} else {
+  console.log(`\nSeu número é NEGATIVO!!\n`);
 }
