@@ -63,6 +63,6 @@ console.log(typeof(eVerdade));
 
 
 // // ----------------------------------------------------------- Boolean:
-let a = Boolean(“Oi”);
+let a = Boolean("oi");
     Console.log(a); 
-    console.log(typeof(a); 
+    console.log(typeof(a)); 
