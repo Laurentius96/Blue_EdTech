@@ -38,18 +38,16 @@ var contador = 0;
 // // Declaração da função:
 
 function validacao(pergunta) {
-  if (pergunta !== 1 || pergunta !== 2) {
+  if (pergunta === 1) {
+    console.log("Atena: Ok, anotado...");
+    contador++;
+  } else if (pergunta === 2) {
+    console.log("Atena: Curioso...");
+  } else {
     console.log(
       "Atena: Detetive, por favor preencher corretamente a pergunta!"
     );
     erro++;
-  } else {
-    if (pergunta === 1) {
-      console.log("Atena: Ok, anotado...");
-      contador++;
-    } else {
-      console.log("Atena: Curioso...");
-    }
   }
 }
 // // Introdução ao jogo e suas váriáveis:

@@ -42,44 +42,44 @@ console.log("Lista original");
 console.log(lista);
 console.log();
 
-// lista.push("Ayrton");
-// console.log("Lista depois do push");
-// console.log(lista);
-// console.log();
+lista.push("Ayrton");
+console.log("Lista depois do push");
+console.log(lista);
+console.log();
 
 // // A função pop, além de remover o último item de uma lsita, me retorna o valor removido. Eu posso guardar então esse valor em outro lugar, por exemplo em uma nova lista.
 let removidos = [];
-// // Criei a lista vazia removidos, e fiz um push com o item retornado pelo pop (removido da lista "lista")
-// removidos.push(lista.pop());
-// console.log("Lista depois do pop");
-// console.log(lista);
-// console.log(removidos);
-// console.log();
+// Criei a lista vazia removidos, e fiz um push com o item retornado pelo pop (removido da lista "lista")
+removidos.push(lista.pop());
+console.log("Lista depois do pop");
+console.log(lista);
+console.log(removidos);
+console.log();
 
-// lista.unshift("Amanda");
-// console.log("Lista depois do unshift");
-// console.log(lista);
-// console.log();
+lista.unshift("Amanda");
+console.log("Lista depois do unshift");
+console.log(lista);
+console.log();
 
 
 // // Shift funciona como o pop, porém ao invés de remover o último item, remove o primeiro.
-// removidos.push(lista.shift());
-// console.log("Lista original e removidos depois do shift");
-// console.log(lista);
-// console.log(removidos);
-// console.log();
+removidos.push(lista.shift());
+console.log("Lista original e removidos depois do shift");
+console.log(lista);
+console.log(removidos);
+console.log();
 
 // // Splice: Remove, adiciona ou substitui itens de uma lista. Ele pode ter 2 ou mais argumentos, em ordem:
-// //splice(x,y,ele1,ele2,eleN...);
-// // x: posição da lista onde será aplicado
-// // y: quantidade de itens a serem REMOVIDOS!
-// lista.splice(2,2);
-// console.log("Lista depois de aplicar o splice - remove");
-// console.log(lista);
+//splice(x,y,ele1,ele2,eleN...);
+// x: posição da lista onde será aplicado
+// y: quantidade de itens a serem REMOVIDOS!
+lista.splice(2,2);
+console.log("Lista depois de aplicar o splice - remove");
+console.log(lista);
 
 // // Splice - Adicionando novos elementos (Removi 0, e adicionei o que foi passado de argumento depois dele).
-// lista.splice(2,0,"Caroline","William");
-// console.log(lista);
+lista.splice(2,0,"Caroline","William");
+console.log(lista);
 
 
 // // Splice - Substituindo elementos (escolho a quantidade de itens a serem removidos, e adiciono quantos novos eu quiser no lugar)
@@ -89,12 +89,12 @@ let removidos = [];
 // // Localizando um item e removendo da lista.
 // // Uso o metodo indexOf para localizar qual a posição do item que quero remover, e coloco como argumento na posição do splice.
 
-// console.log("Lista original:");
-// console.log(lista);
-// let entrada = prompt("Qual item quer excluir?")
-// lista.splice(lista.indexOf(entrada),1);
-// console.log("Lista removido:");
-// console.log(lista);
+console.log("Lista original:");
+console.log(lista);
+let entrada = prompt("Qual item quer excluir?")
+lista.splice(lista.indexOf(entrada),1);
+console.log("Lista removido:");
+console.log(lista);
 
 
 // // fill: preenche a minha lista, substituindo os elementos atuais pelo que foi passado no primeiro parâmetro. O segundo parâmetro define onde deve começar a fazer a substituição, e o 3º parâmetro define onde ele não deve mais mexer.

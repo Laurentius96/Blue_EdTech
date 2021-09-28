@@ -103,7 +103,14 @@ Funções para manipulação de Listas
     O método sort() ordena os elementos do array de acordo com a função de
     ordenação.
     
-    pessoas.sort(function(a, b) {return a.age - b.age; // ordena de forma crescente
+    pessoas.sort(function(a, b) {return a.age - b.age; // ordena de forma crescente // para numeros
+
+    ====================================================================
+
+> fill
+
+
+
 --------------------------------------------------------------------------*/
 
 var frutas = ["Maça", "Banana"];
@@ -154,5 +161,6 @@ console.log(p03);
 // // ---------------------------------------------- sort (Substitui)
 
 var exemplo = ["a", "c", "b", "e", "f"];
-exemplo.sorf();
-console.log(exemplo);
+console.log(exemplo.sort());
+
+// // 
