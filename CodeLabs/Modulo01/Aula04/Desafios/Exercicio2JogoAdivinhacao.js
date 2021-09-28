@@ -5,7 +5,7 @@
   Escreva um programa que faça o computador “pensar” em um número inteiro entre 0 e 10 e peça para o usuário tentar descobrir qual foi o número escolhido pelo computador. O programa deverá escrever na tela se o usuário venceu ou perdeu.
 */
 console.log("Jogo de adivinhação");
-let numeros = Math.floor(Math.random(0, 10) * 11);
+let numeros = Math.floor(Math.random(0, 10) * 11); // o *11 é para aproximar o número 9,99999 para 10 e o Math.floor faz o número se tornar inteiro.
 let resultado = parseInt(prompt("Digite um número"));
 console.log(`O computador escolheu ${numeros}`);
 

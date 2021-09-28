@@ -20,7 +20,7 @@ Digite: F – Feminino ou M – Masculino
 while (contador === 0) {
   escolha = prompt("Digite seu sexo: ").toUpperCase();
   console.log(escolha);
-  console.log(typeof(escolha));
+  
   if (escolha != "F" || escolha == "" || escolha == " " || escolha != "M") {
     console.log("Sexo Inválido! Por favor, faça uma escolha válida...");
   } else {

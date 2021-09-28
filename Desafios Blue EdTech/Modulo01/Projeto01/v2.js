@@ -38,14 +38,13 @@ var contador = 0;
 // // Declaração da função:
 
 function validacao(pergunta) {
-  console.log(typeof(pergunta));
-    if (pergunta.includes ("") ==  || pergunta == " " || pergunta != 1 || pergunta != 2) {
+  if (pergunta !== 1 || pergunta !== 2) {
     console.log(
       "Atena: Detetive, por favor preencher corretamente a pergunta!"
     );
     erro++;
   } else {
-    if (pergunta == 1) {
+    if (pergunta === 1) {
       console.log("Atena: Ok, anotado...");
       contador++;
     } else {
@@ -53,7 +52,6 @@ function validacao(pergunta) {
     }
   }
 }
-
 // // Introdução ao jogo e suas váriáveis:
 
 console.log(`
@@ -61,7 +59,7 @@ Atena: Olá detetive, tudo bem?
 Atena: Eu sou Atena a I.A. do governo que irá classifcar e julgar o suspeito que você está interrogando...
 Atena: Por favor, digite o primeiro nome do(a) interrogado(a):`);
 console.log();
-nome = prompt("Nome do interrogado: ");
+nome = prompt("Digite o nome do interrogado: ");
 console.log(`
 Atena: Sei que você fez 5 perguntas para o interrogado(a).
 Atena: Por favor, coloque coloque a baixo suas perguntas e as resposta do(a) ${nome}.\n`);
@@ -71,7 +69,7 @@ Atena: Por favor, coloque coloque a baixo suas perguntas e as resposta do(a) ${n
 console.log(`| Digite: 1 p/ SIM  OU  Digite: 2 p/ NÃO |`);
 console.log(`\nDetetive: Você telefonou para a vítima?`); // imprimir texto dentro das "".
 pergunta_1 = validacao(+prompt(`Resposta do(a) ${nome}: `));
-console.log(`\nDetetive: Você esteve no local do crime?`); // imprimir texto dentro das "".
+console.log(`\nDetetive: Você esteve no local do crime? `); // imprimir texto dentro das "".
 pergunta_2 = validacao(+prompt(`Resposta do(a) ${nome}: `));
 console.log("\nDetetive: Você mora perto da vítima?"); // imprimir texto dentro dos "".
 pergunta_3 = validacao(+prompt(`Resposta do(a) ${nome}: `));
@@ -83,11 +81,13 @@ pergunta_5 = validacao(+prompt(`Resposta do(a) ${nome}: `));
 // // Lógica da classificação:
 
 if (erro != 0) {
-  console.log(`\nAtena: Resultado inconclusivo devido ao erro de preenchimento! Por favor, rodar novamente o programa...\n`);
+  console.log(
+    `\nAtena: Resultado inconclusivo devido ao erro de preenchimento! Por favor, rodar novamente o programa...\n`
+  );
 } else {
   if (contador === 5) {
     console.log(
-      `\nAtena: Segundo o algoritmo, ${nome} pode ser classificado(a) como: ASSINO(A).\n`
+      `\nAtena: Segundo o algoritmo, ${nome} pode ser classificado(a) como: ASSASSINO(A).\n`
     );
   } else if (contador === 2) {
     console.log(

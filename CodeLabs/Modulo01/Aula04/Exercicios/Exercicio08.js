@@ -13,3 +13,9 @@ number entre 0.00 e 10.0
 Por fim, se for entre 9.0 e 10.0, deve exibir um belo de um A.
 
 */
+
+const prompt = require("prompt-sync")(); // permite usar o prompt
+
+var nota;
+var contador = 0;
+
