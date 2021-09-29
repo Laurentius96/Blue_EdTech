@@ -5,15 +5,15 @@ const prompt = require('prompt-sync')(); // permiteo uso do prompt.
     1. Crie um script que pergunte 3 números ao usuário (usando for!), 
     coloque em um array, depois exiba tal array.
 
-    2. Depois use um for para percorrer esse Array, e pergunte para o usuário 
-    o novo valor que ele quer colocar em cada posição. 
+    2. Depois use um for para percorrer esse Array, e pergunte para o usuário o novo valor que ele quer colocar em cada posição. 
     (Por exemplo: "Digite um novo valor para a posição 1", 
-    "Digite um novo valor para a posição 2", etc...). Substitua o valor na 
+    "Digite um novo valor para a posição 2", etc...). Substitua o valor a 
     lista original, para o novo valor entrado pelo usuário."
 
 */
 
 // // Criei um alista com 3 elemntos para o meu for rodar 3 vezes. Não 
+
 let lista = [0,0,0];
 var listafinal = [];
 var count = 0;

@@ -109,7 +109,35 @@ Funções para manipulação de Listas
 
 > fill
 
+    O método fill() preenche os elementos de acordo com a posição de início e
+    fim.
 
+    Parâmetros:  
+    
+    • 1 parâmetro: (elemento) => Preenche todo o array com esse elemento;
+
+    • Exemplo:
+
+    const l1 = ["Maria", "Joaquim", "Marcos","Paulo"];
+    l1.fill("José"); // output: ["José", "José", "José", "José"]
+
+    ====================================================================
+
+    • 2 parâmetro: (elemento, posição_inicial) => Preenche da posição_inicial até o final do array com esse elemento;
+
+    • Exemplo:
+    
+    const l2 = ["Maria", "Joaquim", "Marcos","Paulo"];
+    console.log(l2.fill("José", 1)); // output: ["Maria", "José", "José", "José"]
+
+    ====================================================================
+
+    • 3 parâmetro: (posiçãodoelemento, posição_inicial, posição_final) => Preenche da posição_inicial até posição_final do array com esse elemento;
+
+    • Exemplo:
+
+    const l3 = ["Maria", "Joaquim", "Marcos","Paulo"];
+    console.log(l3.fill("José", 1, 3));  // output: ["Maria", "José", "José", "Paulo"]
 
 --------------------------------------------------------------------------*/
 
@@ -163,4 +191,17 @@ console.log(p03);
 var exemplo = ["a", "c", "b", "e", "f"];
 console.log(exemplo.sort());
 
-// // 
+// // ---------------------------------------------- fill (1 parâmetro)
+
+const l1 = ["Maria", "Joaquim", "Marcos","Paulo"];
+console.log(l1.fill("José")); 
+
+// // ---------------------------------------------- fill (2 parâmetro)
+
+const l2 = ["Maria", "Joaquim", "Marcos","Paulo"];
+console.log(l2.fill("José", 1)); 
+
+// // ---------------------------------------------- fill (3 parâmetro)
+
+const l3 = ["Maria", "Joaquim", "Marcos","Paulo"];
+console.log(l3.fill("José", 1, 3)); 
