@@ -10,24 +10,25 @@ var numero = prompt("Digite um número: ");
 var lista = [];
 var total;
 
-for (let i of numero) {
-  lista.push(parseInt(i));
-}
-console.log(lista);
-const total = lista.reduce((total, currentElement) => total + currentElement)
+// for (let i of numero) {
+//   lista.push(parseInt(i));
+// }
+// console.log(lista);
+// const total = lista.reduce((total, currentElement) => total + currentElement)
 
-// mesma coisa que...
-total = lista.reduce(function (total, currentElement) {
-//  console.log(total + " " + currentElement);
-  return total + currentElement;
-});
+// // mesma coisa que...
+// total = lista.reduce(function (total, currentElement) {
+// //  console.log(total + " " + currentElement);
+//   return total + currentElement;
+// });
 
-console.log(total);
+// console.log(total);
 
 // ou...
 
-// contador = 0;
-// for (let i of numero) {
-//   contador = contador + parseInt(i);
-// }
-// console.log(contador);
+var contador = 0;
+for (let i of numero) {
+  contador = contador + parseInt(i);
+  // ou contador += parseInt(i);
+}
+console.log(contador);

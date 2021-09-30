@@ -10,3 +10,14 @@ var lista01 = ["Ana", "Bruno", "Carla", "Duda"];
 var lista02 = ["Erica", "Felipe", "Gustavo", "Henrique"];
 var novaLista = lista01.concat(lista02);
 console.log(novaLista);
+
+// // use o "flat" para retirar um array dentro de outro 
+// // outra forma:
+
+for (let i of lista01) {
+  novaLista.push(i);
+}
+for (let i of lista02) {
+  novaLista.push(i);
+}
+

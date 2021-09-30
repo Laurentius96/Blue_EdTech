@@ -124,3 +124,16 @@ var operacaoDigitado = prompt("Digitação uma operação (+ ou *) ");
 var numero1Digitado = +prompt("Numero 1: ");
 var numero2Digitado = +prompt("Numero 2: ");
 calculadora(operacaoDigitado, numero1Digitado, numero2Digitado);
+
+
+// // ------------------------------------------- Parametro já definido 
+
+function multiply(a, b = 1) {
+  return a * b;
+}
+
+multiply(5, 2); // 10
+multiply(5, 1); // 5
+multiply(5);    // 5
+
+// // ------------------------------------------- Parametro já definido 
