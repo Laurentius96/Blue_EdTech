@@ -17,3 +17,4 @@ for (let i of palavras) {
 
 console.log(contador);
 
+// // 

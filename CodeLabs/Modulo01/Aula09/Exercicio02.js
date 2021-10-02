@@ -1,8 +1,12 @@
 //-------------------- CodeLab (Aula 09) - Exercícios 02 -------------- \\
 
 /* 
-02 - Crie um programa que vai ler vários números e colocar em uma lista. Depois
-disso, crie duas listas extras que vão conter apenas os valores pares e os valores
-ímpares digitados, respectivamente. Ao final, mostre o conteúdo das três listas
-geradas.
+02- Imprimir a tabuada do número 8.
 */
+const prompt = require("prompt-sync")(); // permite usar o prompt.
+
+console.log("Tabuada do 8");
+for (let i = 0; i <= 10; i++) {
+  console.log(`${i} x 8 = ${i * 8}`);
+  console.log();
+}

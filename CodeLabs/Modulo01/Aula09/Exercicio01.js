@@ -1,8 +1,12 @@
 //-------------------- CodeLab (Aula 09) - Exercícios 01 -------------- \\
 
 /* 
-01 - Crie um programa onde o usuário possa digitar vários valores numéricos e
-cadastre-os em uma lista. Caso o número já esteja lá dentro, ele não será
-adicionado. No final, serão exibidos todos os valores únicos digitados, em ordem
-crescente. 
+01- Imprimir números de 1 a 10.
 */
+const prompt = require("prompt-sync")(); // permite usar o prompt.
+
+var limite = +prompt("Até onde você quer que conte: ");
+
+for (let i = 1; i <= limite; i++) {
+  console.log(`${i}`);
+}
