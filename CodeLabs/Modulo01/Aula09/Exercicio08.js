@@ -5,16 +5,22 @@
 */
 
 function maior() {
-    let lista = [1, 122, 3, 41, -1, -3, -8];
-    let maiorNumero = 0;
-    
+  let lista = [1, 122, 3, 41, -1, -3, -8];
+  let maiorNumero = 0;
 
-    for (let i of lista) {
-      if (i >= maiorNumero) {
-        maiorNumero = i;
-      }
+  for (let i of lista) {
+    if (i >= maiorNumero) {
+      maiorNumero = i;
     }
-    console.log(maiorNumero);
   }
-  
-  maior();
+  console.log(maiorNumero);
+}
+
+maior();
+
+// ou 
+
+/*
+var arr = [1, 2, 3];
+var max = Math.max(...arr);
+*/
