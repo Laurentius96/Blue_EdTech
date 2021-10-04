@@ -1,9 +1,9 @@
-/* ------------ Estruturas de repetição - Laço for ------------  
+/* ------------ Estruturas de repetição - Laço em JavaScript ------------  
 
 
 Laços de Repetição: 
 
-> Laço for tradicional:
+1) Laço for tradicional:
 
     1° argumento: Defino o valor inicial
     2° argumento: Condição de parada de for 
@@ -17,11 +17,44 @@ Laços de Repetição:
        código a ser executado
     }
 
-  =====================================================================
+    • A expressão inicial é inicializada e, caso possível, é
+      executada. Normalmente essa expressão inicializa um ou
+      mais contadores, mas a sintaxe permite expressões de
+      qualquer grau de complexidade, podendo conter também
+      declaração de variáveis.
 
->
+    • A expressão condição é avaliada. Caso o resultado da
+      condição seja verdadeiro, o laço é executado. Se o valor da
+      condição for falso, então o laço terminará. Se a expressão
+      condição for emitida, a condição se assume verdadeira.
+
+    • A instrução é executada.
+
+    • A atualização da expressão incremento, se houver, executa e
+      retorna o controle para o passo 2.
 
 
+
+==========================================================================
+
+2) For in:
+
+    • A declaração FOR IN executa iterações a partir de uma variável
+    específica, percorrendo todas as propriedades de um objeto.
+
+    • Para cada propriedade distinta, o JavaScript executará uma iteração.
+
+    for (variavel in objeto) {
+    Declarações
+    }
+
+    • A declaração FOR IN irá retornar o nome pré-definido da propriedade
+    ao invés do seu index numérico. Assim é melhor usar o tradicional for
+    com index numérico quando interagir com arrays, pois o FOR IN
+    interage com as propriedades definidas pelo programador ao invés
+    dos elementos do array.
+
+    
 -------------------------------------------------------------------------*/
 
 const prompt = require("prompt-sync")(); // permite usar o prompt
