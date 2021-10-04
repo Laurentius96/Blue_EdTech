@@ -11,7 +11,7 @@
 
 > Aula 04 - If & Else, uso da biblioteca Math, uso do .random(), .slice(), .toLowerCase(), .toUpperCase();
 
-> Aula 06 - Listas/Laços de Repetição em Java Script;
+> Aula 06 - Listas, Laços de Repetição;
 
 > Aula 09 - For, For in, For of e for.Reach 
 
