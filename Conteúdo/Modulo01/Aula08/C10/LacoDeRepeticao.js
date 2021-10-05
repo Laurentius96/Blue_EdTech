@@ -1,4 +1,4 @@
-/* ------------ Estruturas de repetição - Laço em JavaScript ------------  
+/* ------------ Estruturas de repetição - (Aula 08) - Laço em JavaScript ------------  
 
 
 Laços de Repetição: 
@@ -49,12 +49,64 @@ Laços de Repetição:
     }
 
     • A declaração FOR IN irá retornar o nome pré-definido da propriedade
-    ao invés do seu index numérico. Assim é melhor usar o tradicional for
-    com index numérico quando interagir com arrays, pois o FOR IN
-    interage com as propriedades definidas pelo programador ao invés
-    dos elementos do array.
+      ao invés do seu index numérico. Assim é melhor usar o tradicional for
+      com index numérico quando interagir com arrays, pois o FOR IN
+      interage com as propriedades definidas pelo programador ao invés
+      dos elementos do array.
 
+==========================================================================
+
+3) For of 
+
+    • O loop FOR OF percorre objetos iterativos (incluindo
+      strings e arrays), chamando uma função personalizad
+      a com instruções a serem executadas para o valor
+      de cada objeto distinto. O FOR OF interage com o
+      VALOR das propriedades.
+
+      for (<variavel> of <iteravel>){
+      declaração
+      }
+
+==========================================================================
+
+4) indexOf()
+
+    • O método indexOf() retorna o primeiro índice em que o elemento pode 
+    ser encontrado no array, retorna –1 caso o mesmo não esteja presente.
     
+    array.indexOf(elementoDePesquisa, [pontoInicial = 0]
+
+    • Para localizar valores em um array
+    var array = [2, 5, 9];
+    array.indexOf(2); //0
+    array.indexOf(7); //-1
+    array.indexOf(9, 2); //2
+    array.indexOf(2, -1); //-1
+    array.indexOf(2, -3); //0
+
+==========================================================================
+
+5) forEach
+
+    • O método forEach() executa uma dada função em cada elemento de
+     um array.
+
+    array.forEach(callback (currentValue [, index [, array]]) [, thisArg]);
+
+    • Callback: função para executar em cada elemento, recebendo tês
+    argumentos.
+
+    1. CurrentValue: o valor atual do elemento sendo processado no array.
+
+    2. Index Opicional: o índice do elemento atual sendo processado no
+    array.
+    
+    3. Array Opicional: o array que forEach() está sendo aplicado.
+
+    • ThisArg Opicional: o valor a ser usado como this quando executar
+    callback.
+
 -------------------------------------------------------------------------*/
 
 const prompt = require("prompt-sync")(); // permite usar o prompt
