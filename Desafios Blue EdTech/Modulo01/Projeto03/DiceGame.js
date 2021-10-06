@@ -67,8 +67,8 @@ for (let i = 1; i <= num_us; i++) {
 lista_jogadores.sort(function (a, b) {  
   return a.dados - b.dados;
 });
-lista_jogadores.reverse();
-console.log(lista_jogadores);
+
+console.log(lista_jogadores.reverse());
 
 // // 6) Mostrar no final qual jogador ganhou mais rodadas e foi o grande campeão. (Iria funcinar caso a etapa 5) tivesse funcinando)
 console.log(`\n O vencedor é ${lista_jogadores[0].nome}`);

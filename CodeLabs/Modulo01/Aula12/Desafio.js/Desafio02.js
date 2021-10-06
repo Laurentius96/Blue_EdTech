@@ -1,9 +1,30 @@
-//-------------------- CodeLab (Aula 09) - Desafio -------------- \\
+//-------------------- CodeLab (Aula 12) - Desafio 02 -------------- \\
 
 /* 
-Desafio : Crie um programa que leia nome, ano de nascimento e carteira de
-trabalho e cadastre-os (com idade) em um objeto. Se por acaso a CTPS for diferente
-de 0, o objeto receberá também o ano de contratação e o salário. Calcule e
-acrescente , além da idade , com quantos anos a pessoa vai se aposentar. Considere
-que o trabalhador deve contribuir por 35 anos para se aposentar.
+Faça um programa que leia nome e média de um aluno, guardando também a situação em um objeto. No final, mostre o conteúdo da estrutura na tela. A média para aprovação é 7. Se o aluno tirar entre 5 e 6.9 está de recuperação, caso contrário é reprovado.
 */
+
+//---------------------------------- Código ------------------------------\\
+
+const prompt = require("prompt-sync")(); // permite usar o prompt.
+
+var count = 0;
+var aluno = {
+  nome: "",
+  nota: [],
+  situação: "",
+};
+
+aluno.nome = prompt("Por favor, adicionar o nome do aluno: ");
+
+while (true) {
+  let addNota = prompt("Por favor, adicionar a nota: ");
+
+  if (addNota == " " || addNota == "") {
+    console.log("Valor invalido...");
+    console.log(addNota);
+  } else {
+    console.log("Tudo OK...");
+    break;
+  }
+}
