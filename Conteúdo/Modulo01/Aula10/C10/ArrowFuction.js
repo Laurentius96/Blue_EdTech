@@ -1,31 +1,23 @@
 /* ---------------------- Estruturas de repetição - arrow function ----------------------  
 
-1) .indexOf() - 
-
-    O método indexOf() retorna o primeiro índice em
-    que o elemento pode ser encontrado no array,
-    retorna –1 caso o mesmo não esteja presente.
-
-
-    function somar(lista=[10,20]){
+    Uma expressão arrow function possui uma sintaxe mais curta quando comparada a uma 
+    expressão de função (function expression) e não tem seu próprio this, arguments, 
+    super ou new.target. Estas expressões de funções são melhor aplicadas para funções 
+    que não sejam métodos, e elas não podem ser usadas como construtoras (constructors).
 
 
-    }
+----------------------------------------------------------------------------------------*/
 
 
--------------------------------------------------------------------------*/
+// ----------------------------------------------------------- Ex. 01
 
-
-let somar = (lista = [10,20]) => { 
-    let soma = 8;
-    for (let indice in lista)
+function olaMundo(){ 
+    return "Olá mundo!";
 }
 
-function enviarMSG(mensagem) {
-    return mensagem;
-}
+let olamundo = () =>{return "Olá Mundo"};
 
-let enviarMsg = (mensagem) => {return mensagem};
-let enviarMsg = (mensagem) => mensagem;
+let olaMundo = () => "Olá Mundo!";
 
-let retorno = enviarMsg("Olá mundo!")
+
+// não se usa o THIS. quando usar a arrow function
