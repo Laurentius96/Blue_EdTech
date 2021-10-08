@@ -18,9 +18,9 @@ var aluno = {
 aluno.nome = prompt("Por favor, adicionar o nome do aluno: ");
 
 while (true) {
-  let addNota = prompt("Por favor, adicionar a nota: ");
-
-  if (addNota == " " || addNota == "") {
+  let addNota = +prompt("Por favor, adicionar a nota: ");
+    
+  if (addNota == " " || addNota == "" || addNota ) {
     console.log("Valor invalido...");
     console.log(addNota);
   } else {

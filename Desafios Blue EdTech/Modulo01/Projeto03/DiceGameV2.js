@@ -73,7 +73,7 @@ for (let i = 0; i < numRodadas; i++) {
       dado: rolarDados(),
     });
   }
-  lista[i] = lista[i].sort(function (a, b) {
+  lista[i] = lista[i].sort(function (a, b) { // -----------> Função que ordena os números tirados no dado, como (b.dado - a.dado) está invertido ele irá ordenar de forma decrecente... 
     return + (b.dado - a.dado);
   });
 
@@ -93,7 +93,7 @@ for (let i = 0; i < numUsuarios; i++) {
     vitorias: count[jogador[i]],
   });
 }
-listaVencedor = listaVencedor.sort(function (a, b) {
+listaVencedor = listaVencedor.sort(function (a, b) { // -----------> Função que ordena os números de vitórias, como (b.vitorias - a.vitorias) está invertido ele irá ordenar de forma decrecente... 
   return + (b.vitorias - a.vitorias);
 });
 console.log(`| ========== Ranking Final ========= |`); // -----------> Perfumaria...

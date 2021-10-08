@@ -32,7 +32,7 @@
 const prompt = require("prompt-sync")(); // permite usar o prompt.
 
 // // Declaração de váriáveis:
-var continuar;
+var continuar = 1;
 let idade;
 let confirmacao_idade;
 let resposta_ano;
