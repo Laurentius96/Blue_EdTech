@@ -10,18 +10,18 @@
 
     O programa tem que:
 
-    Receber votos até que o usuário diga que não tem mais ninguém para votar; ()
-    Ter uma função chamada autorizaVoto(anoNascimento) retornando: "Negado`, "Opcional"  ou "Obrigatório"; ()
-    Ter uma função chamada votacao(autorizacao, voto) que valida  e contabiliza o voto (número entre 1 e 5) ou retorna a mensagem: "Você não pode votar", caso o voto não possa ser contabilizado; () 
+    Receber votos até que o usuário diga que não tem mais ninguém para votar; (X)
+    Ter uma função chamada autorizaVoto(anoNascimento) retornando: "Negado`, "Opcional"  ou "Obrigatório"; (X)
+    Ter uma função chamada votacao(autorizacao, voto) que valida  e contabiliza o voto (número entre 1 e 5) ou retorna a mensagem: "Você não pode votar", caso o voto não possa ser contabilizado; (X) 
 
-    Contabilizar os votos de acordo com os significados ():
+    Contabilizar os votos de acordo com os significados (X):
     1 = Candidato 1
     2 = Candidato 2
     3 = Candidato 3
     4 = Voto Nulo
     5 = Voto em Branco
 
-    Ter uma função chamada exibirResultados() que deve mostrar: ()
+    Ter uma função chamada exibirResultados() que deve mostrar: (X)
     - O total de votos para cada candidato 
     - O total de votos nulos
     - O total de votos em branco
@@ -34,18 +34,20 @@ const prompt = require("prompt-sync")(); // permite usar o prompt.
 
 // // Funções:
 
-// 1)
+// 1) Ter uma função chamada autorizaVoto()... 
 function autorizaVoto(idade) {
   if (idade < 16) {
     return "Negado!";
   } else if (idade >= 16 && idade < 18) {
     return "Opcional.";
-  } else {
+  } else if (idade >= 18 && idade <= 70) {
     return "Obrigatório.";
+  } else{
+    return "Opcional.";
   }
 }
 
-// 2)
+// 2) Contabilizar os votos de acordo com os significados - funçãoe que eu criei que é chamada dentro da função votacao(autorizacao)...
 function meuVoto() {
   console.log("|============  Eleitor seu voto será?  ============|");
   console.log("|==================================================|");
@@ -68,6 +70,7 @@ function meuVoto() {
         console.log("|                                                  |");
         console.log("|==================================================|");
         counter_1++;
+        lista[0].votos = counter_1;
         break;
       } else if (voto === 2) {
         console.log("|=================  Sua escolha:  =================|");
@@ -77,6 +80,7 @@ function meuVoto() {
         console.log("|                                                  |");
         console.log("|==================================================|");
         counter_2++;
+        lista[1].votos = counter_2;
         break;
       } else if (voto === 3) {
         console.log("|=================  Sua escolha:  =================|");
@@ -86,6 +90,7 @@ function meuVoto() {
         console.log("|                                                  |");
         console.log("|==================================================|");
         counter_3++;
+        lista[2].votos = counter_3;
         break;
       } else if (voto === 4) {
         console.log("|=================  Sua escolha:  =================|");
@@ -95,6 +100,7 @@ function meuVoto() {
         console.log("|                                                  |");
         console.log("|==================================================|");
         counter_4++;
+        lista[3].votos = counter_4;
         break;
       } else if (voto === 5) {
         console.log("|=================  Sua escolha:  =================|");
@@ -104,6 +110,7 @@ function meuVoto() {
         console.log("|                                                  |");
         console.log("|==================================================|");
         counter_5++;
+        lista[4].votos = counter_5;
         break;
       }
     } else {
@@ -114,7 +121,7 @@ function meuVoto() {
   }
 }
 
-// 3)
+// 3) Ter uma função chamada votacao(autorizacao, voto)...
 function votacao(autorizacao) {
   if (autorizacao == "Negado!") {
     console.log("| ++++++++++++ Eleitor não pode votar! +++++++++++ |");
@@ -130,8 +137,11 @@ function votacao(autorizacao) {
   }
 }
 
-// 4)
+// 4) Ter uma função chamada exibirResultados()...
 function exibirResultados() {
+  lista = lista.sort(function (a, b) {
+    return +(b.votos - a.votos);
+  });
   console.log("|==================== Resultado ===================|");
   console.log("|                                                  |");
   console.log(
@@ -151,6 +161,11 @@ function exibirResultados() {
   );
   console.log("|                                                  |");
   console.log("|==================================================|");
+  console.log("|                                                  |");
+  console.log(`  +++  O vencedor nessa urna foi: ${lista[0].candidato} +++`);
+  console.log("|                                                  |");
+  console.log("|==================================================|");
+  console.log();
 }
 
 // // Declaração de variáveis:
@@ -170,18 +185,15 @@ const condidatos = [
   "Voto Nulo",
   "Voto em Branco",
 ];
-var lista = {
-  candidato: [
-    "Ana Andrade",
-    "Bruna Brener",
-    "Caio Castro",
-    "Voto Nulo",
-    "Voto em Branco",
-  ],
-  votos: [0, 0, 0, 0, 0],
-};
+var lista = [
+  { candidato: "Ana Andrade", votos: 0 },
+  { candidato: "Bruna Brener", votos: 0 },
+  { candidato: "Caio Castro", votos: 0 },
+  { candidato: "Voto Nulo", votos: 0 },
+  { candidato: "Voto em Branco", votos: 0 },
+];
 
-// //
+// // Chamando as funções:
 
 while (continuar == 1) {
   console.log("|================  Urna Eletrônica  ===============|");
@@ -209,3 +221,4 @@ while (continuar == 1) {
 }
 
 exibirResultados();
+
