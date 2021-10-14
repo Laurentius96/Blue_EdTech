@@ -89,20 +89,67 @@ for (let chave in filme) {
 }
 
 // // ------------------------ Ex. Criando objetos com For:
-const prompt = require("prompt-sync")(); // permite usar o prompt
+// const prompt = require("prompt-sync")(); // permite usar o prompt
 
-/*
-let listaFilmes = [{
-  nome: "Harry Potter",
-  anoLancamento: 2001,
-}];
-*/
-let listaFilmes = [];
-for (let i = 0; i < 2; i++) {
-  let filme = {};
-  filme.nome = prompt("Nome do filme: ");
-  filme.ano = prompt("Ano do filme: ");
-  listaFilmes.push(filme);
+// /*
+// let listaFilmes = [{
+//   nome: "Harry Potter",
+//   anoLancamento: 2001,
+// }];
+// */
+// let listaFilmes = [];
+// for (let i = 0; i < 2; i++) {
+//   let filme = {};
+//   filme.nome = prompt("Nome do filme: ");
+//   filme.ano = prompt("Ano do filme: ");
+//   listaFilmes.push(filme);
+// }
+
+// console.log(listaFilmes);
+
+// // ------------------------  Ex.02: Chamando um item de uma lista de objetos
+
+var jogador = {
+  nome: "José",
+  numero: 5,
+  patrocinio: ["Nike", "Skol"],
+};
+
+jogador.time = "Bragantino";
+
+console.log(jogador);
+
+console.log(jogador.nome); // ou
+console.log(jogador["nome"]);
+console.log();
+
+for (let chave in jogador) {
+  console.log(chave);
+  console.log(jogador[chave]);
+  console.log();
 }
 
-console.log(listaFilmes);
+console.log(jogador.patrocinio[1]);
+
+// // ------------------------  Ex.03: Chamando um item de uma lista de objetos
+
+var listaPessoas = [
+  {
+    nome: "Alex",
+    hobbies: ["Estudar", "Ler"],
+  },
+  {
+    nome: "Rafa",
+    hobbies: ["Cantar", "Nadar"],
+  },
+];
+console.log();
+console.log(listaPessoas[0]);
+console.log(listaPessoas[0].nome);
+console.log(listaPessoas[0].hobbies);
+console.log(listaPessoas[0].hobbies[0]);
+console.log();
+console.log(listaPessoas[1]);
+console.log(listaPessoas[1].nome);
+console.log(listaPessoas[1].hobbies);
+console.log(listaPessoas[1].hobbies[1]);

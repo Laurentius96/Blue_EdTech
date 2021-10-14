@@ -125,8 +125,7 @@ var numero1Digitado = +prompt("Numero 1: ");
 var numero2Digitado = +prompt("Numero 2: ");
 calculadora(operacaoDigitado, numero1Digitado, numero2Digitado);
 
-
-// // ------------------------------------------- Parametro já definido 
+// // ------------------------------------------- Parametro já definido
 
 function multiply(a, b = 1) {
   return a * b;
@@ -134,6 +133,46 @@ function multiply(a, b = 1) {
 
 multiply(5, 2); // 10
 multiply(5, 1); // 5
-multiply(5);    // 5
+multiply(5); // 5
 
-// // ------------------------------------------- Parametro já definido 
+// // ------------------------------------------- Arrow function Ex.01
+
+console.log();
+
+// function soma1 () {
+//   return 2;
+// };
+
+var soma1 = () => {
+  return 2;
+};
+
+console.log(soma1());
+
+// // ------------------------------------------- Arrow function Ex.02
+
+console.log();
+
+// function soma2 () {
+//   return 2;
+// };
+
+var soma2 = () => 2;
+
+console.log(soma2());
+
+// // ------------------------------------------- Arrow function Ex.03
+
+// function olaMundo(numVezes) {
+//   for (let i = 0; i, numVezes; i++) {
+//     console.log("Ola Mundo!!");
+//   }
+// }
+
+// olaMundo(3);
+
+var olaMundo = (numVezes) => { 
+  for let i = 0; i, numVezes; i++) {
+    console.log("Ola Mundo!!");
+  }
+};
