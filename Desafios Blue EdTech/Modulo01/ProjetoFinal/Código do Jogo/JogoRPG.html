@@ -1,0 +1,779 @@
+!DOCTYPE html>
+<html>
+  <head>
+    <title>Mini Jogo de RPG - Desafio BlueEdTech</title>
+    <link rel="stylesheet" href="main.css" />
+    <script>
+      /*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+                                                              Código do Mini Jogo de RPG - Lorenzo C. Bianchi
+                                                              
+          Tive MUITA, mas MUITA ajuda de amigos e de tutoriais do YouTube para criar esse código. Aconselho ir na pasta 'Treinamento', lá tem a base de criação da movimentação do 
+          personagem, da criação de cenário e do uso do DrawImage.
+                                                          
+
+      ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+      var VIDA_INICIAL = 300;
+      var PARAMETRO_CIDADE = 1;
+      var SEMENTE = 0;
+      var DIFICULDADE = 1;
+
+      var TERRENO_LIVRE = "0";
+      var TERRENO_BLOQUEADO = "1";
+      var TERRENO_CONSTRUCAO = "2";
+
+      var OESTE = 37;
+      var NORTE = 38;
+      var LESTE = 39;
+      var SUL = 40;
+
+      // A unidade de posição é de 32 pixels. Desenhos de mais de 32 pixels ocupam mais de uma posição...
+      var RESOLUCAO = 32;
+
+      // O cenário terá 15 posições na horizontal e 15 na vertical...
+      var DIMENSAO_X = 15;
+      var DIMENSAO_Y = 15;
+
+      /*---------------------------------------------------------------------------------------
+       Estes serão os inimigos utilizados no jogo. i e j definem a posição da imagem do monstro.
+       Vários outros estão presentes no arquivo de imagem (mosntros4.png) e podem ser incluídos 
+       no jogo apenas adicionando-os no vetor.
+      ---------------------------------------------------------------------------------------*/
+
+      var tipoMonstros = [
+        { i: 4, j: 7, forca: 200, velocidade: 1 },
+        { i: 8, j: 8, forca: 100, velocidade: 2 },
+        { i: 14, j: 9, forca: 200, velocidade: 3 },
+        { i: 15, j: 9, forca: 300, velocidade: 4 },
+        { i: 1, j: 8, forca: 350, velocidade: 5 },
+        { i: 4, j: 8, forca: 500, velocidade: 6 },
+        { i: 3, j: 9, forca: 900, velocidade: 7 },
+        { i: 13, j: 7, forca: 1100, velocidade: 8 },
+      ];
+
+      /*---------------------------------------------------------------------------------------
+       sprite:
+       Esta é a função principal de desenho e controle de objetos no jogo. Todos os objetos 
+       em cena são derivados desta função.
+      ---------------------------------------------------------------------------------------*/
+      function sprite(posicaox, posicaoy, ctx) {
+        this.posicaox = posicaox; // Posição x e y entre 0 e 14...
+        this.posicaoy = posicaoy;
+
+        this.x = posicaox * RESOLUCAO; // Posição em pixels...
+        this.y = posicaoy * RESOLUCAO;
+        this.oldx = this.x;
+        this.oldy = this.y;
+        this.ctx = ctx;
+        this.ativo = true;
+
+        this.desenha = function () {};
+        this.setaMovimento = function (dx, dy) {};
+        this.morre = function () {
+          this.ativo = false;
+        };
+      }
+      sprite.prototype.ciclo = function () {
+        if (!this.ativo) return false;
+        return true;
+      };
+
+      /*---------------------------------------------------------------------------------------
+       spriteMonstros:
+       Esta é a função derivada de sprites que utilizaremos para os monstros presentes no jogo
+      ---------------------------------------------------------------------------------------*/
+      function spriteMonstros(
+        posicaoy,
+        posicaoy,
+        ctx,
+        monstro,
+        valor,
+        norte,
+        leste
+      ) {
+        /*---------------------------------------------------------------------------------------
+         Na inicialização, utilizamos o número do monstro para obter as variáveis do vetor
+         tipoMonstros
+        ---------------------------------------------------------------------------------------*/
+        this.i = tipoMonstros[monstro].i;
+        this.j = tipoMonstros[monstro].j;
+        this.forca = tipoMonstros[monstro].forca;
+        this.velocidade = tipoMonstros[monstro].velocidade;
+
+        /*---------------------------------------------------------------------------------------
+         Valor é um valor único para cada posição na grade de 15 x 15. Com valor e as posições 
+         Norte e Leste, temos um identificador único do monstro, já que dois monstros nunca são 
+         criados na mesma posição
+        ---------------------------------------------------------------------------------------*/
+        this.valor = valor;
+        this.norte = norte;
+        this.leste = leste;
+
+        this.imagem = document.getElementById("monstros");
+        this.monstro = monstro;
+        sprite.call(this, posicaoy, posicaoy, ctx);
+
+        /*---------------------------------------------------------------------------------------
+         A função desenha dos monstros só desenha o monstro se o personagem está no mesmo mapa 
+         do monstro. Uma vez incluído no jogo quando o jogador entra naquele mapa, o monstro 
+         permanece a partir de entõo no vetor de monstros. Com isso sua posição é mantida se o 
+         jogador sai e retorna a seu mapa
+        ---------------------------------------------------------------------------------------*/
+        this.desenha = function () {
+          if (meuCenario.Norte == this.norte && meuCenario.Leste == this.leste)
+            if (this.ativo) {
+              //this.i e this.j definem qual a imagem a ser utilizada para o monstro.
+              this.ctx.drawImage(
+                this.imagem,
+                RESOLUCAO * 2 * this.i,
+                RESOLUCAO * 2 * this.j,
+                RESOLUCAO * 2,
+                RESOLUCAO * 2,
+                this.x,
+                this.y,
+                RESOLUCAO * 2,
+                RESOLUCAO * 2
+              );
+            }
+        };
+
+        this.ciclo = function () {
+          // Apenas monstros ativos e no mapa atual teráo seu ciclo executado...
+          if (!this.ativo) return;
+          if (meuCenario.Norte != this.norte || meuCenario.Leste != this.leste)
+            return;
+
+          var deltax = meuCenario.personagem.x - this.x;
+          var deltay = meuCenario.personagem.y - this.y;
+          var posicaox = Math.round(this.x / RESOLUCAO);
+          var posicaoy = Math.round(this.y / RESOLUCAO);
+          var novaposicaox = posicaox;
+          var novaposicaoy = posicaoy;
+          var passox = 0;
+          var passoy = 0;
+          var movex = false;
+          var movey = false;
+
+          // Calculamos deltax e deltay como as distâncias x e y entre o monstro e o jogador...
+          if (deltax > 0) {
+            novaposicaox++;
+            passox += this.velocidade;
+          }
+          if (deltax < 0) {
+            novaposicaox--;
+            passox -= this.velocidade;
+          }
+          if (deltay > 0) {
+            novaposicaoy++;
+            passoy += this.velocidade;
+          }
+          if (deltay < 0) {
+            novaposicaoy--;
+            passoy -= this.velocidade;
+          }
+
+          // Se a distância em x é maior que em y, tentamos primeiro mover ele em x, e se estiver bloqueado, em y. se a distancia em x é menor, é feito o inverso...
+          if (Math.abs(deltax) > Math.abs(deltay)) {
+            if (meuCenario.testaMovimento(novaposicaox, posicaoy, true)) {
+              movex = true;
+            } else if (
+              meuCenario.testaMovimento(posicaox, novaposicaoy, true)
+            ) {
+              movey = true;
+            }
+          } else {
+            if (meuCenario.testaMovimento(posicaox, novaposicaoy, true)) {
+              movey = true;
+            } else if (
+              meuCenario.testaMovimento(novaposicaox, posicaoy, true)
+            ) {
+              movex = true;
+            }
+          }
+
+          if (movex) {
+            this.x += passox;
+          } else if (movey) {
+            this.y += passoy;
+          }
+          var posicaox = Math.round(this.x / RESOLUCAO);
+          var posicaoy = Math.round(this.y / RESOLUCAO);
+
+          // Após o movimento, resolvemos um eventual combate...
+          if (
+            meuCenario.testaCombate(posicaox, posicaoy, this.forca, this.valor)
+          )
+            this.ativo = false;
+          return true;
+        };
+      }
+      spriteMonstros.prototype = Object.create(sprite.prototype);
+
+      /*---------------------------------------------------------------------------------------
+        spritePersonagem:
+        Derivada de sprite, controla o personagem do jogador
+      ---------------------------------------------------------------------------------------*/
+      function spritePersonagem(posicaox, posicaoy, ctx) {
+        this.imagem = document.getElementById("personagem");
+        this.etapaPasso = 0;
+        this.iniciouPasso = false;
+        this.iniciouDirecao = 0;
+        this.direcaoImagem = 0;
+        sprite.call(this, posicaox, posicaoy, ctx);
+
+        // Semipasso é a implementação do processo de caminhar de uma posição para a seguinte.
+        //o personagem sempre inicia e termina um movimento em uma posição exata.
+        this.semiPasso = function () {
+          if (this.iniciouDirecao == NORTE) {
+            this.y = this.oldy - (((this.etapaPasso % 4) + 1) / 4) * RESOLUCAO;
+            this.direcaoImagem = 3;
+          }
+          if (this.iniciouDirecao == SUL) {
+            this.y = this.oldy + (((this.etapaPasso % 4) + 1) / 4) * RESOLUCAO;
+            this.direcaoImagem = 0;
+          }
+          if (this.iniciouDirecao == LESTE) {
+            this.x = this.oldx + (((this.etapaPasso % 4) + 1) / 4) * RESOLUCAO;
+            this.direcaoImagem = 2;
+          }
+          if (this.iniciouDirecao == OESTE) {
+            this.x = this.oldx - (((this.etapaPasso % 4) + 1) / 4) * RESOLUCAO;
+            this.direcaoImagem = 1;
+          }
+          this.etapaPasso = (this.etapaPasso + 1) % 4;
+          if (this.etapaPasso == 0) {
+            this.iniciouPasso = false;
+            this.posicaox = this.x / RESOLUCAO;
+            this.posicaoy = this.y / RESOLUCAO;
+          }
+        };
+
+        // Desenha o personagem...
+        this.desenha = function () {
+          if (this.ativo) {
+            this.ctx.drawImage(
+              this.imagem,
+              this.etapaPasso * RESOLUCAO,
+              this.direcaoImagem * 48,
+              RESOLUCAO,
+              48,
+              this.x,
+              this.y + 10,
+              RESOLUCAO,
+              48
+            );
+          }
+        };
+
+        /*---------------------------------------------------------------------------------------
+         .passo:
+        
+         Quando a tecla precionada é chamada o comando .passo do perdonagem. Conforme uma seta é 
+         pressionada, inicia um passo na direção correspondente.
+        
+         Se o passo já foi iniciado não é feito nada - (!this.iniciouPasso) - para evitar que
+         ao clicar um, duas três vezes tenha um éfeito diferente...
+        ---------------------------------------------------------------------------------------*/
+        this.passo = function (direcao) {
+          if (!this.iniciouPasso) {
+            var tempx = -2;
+            var tempy = -2;
+            switch (direcao) {
+              case NORTE:
+                tempx = this.posicaox;
+                tempy = this.posicaoy - 1;
+                break;
+              case SUL:
+                tempx = this.posicaox;
+                tempy = this.posicaoy + 1;
+                break;
+              case LESTE:
+                tempx = this.posicaox + 1;
+                tempy = this.posicaoy;
+                break;
+              case OESTE:
+                tempx = this.posicaox - 1;
+                tempy = this.posicaoy;
+                break;
+              default:
+                break;
+            }
+            if (tempx == -2) return;
+
+            if (meuCenario.testaMovimento(tempx, tempy, false)) {
+              meuCenario.movePersonagem(tempx, tempy);
+              this.iniciouPasso = true;
+              this.iniciouDirecao = direcao;
+              this.oldx = this.x;
+              this.oldy = this.y;
+            }
+          }
+        };
+
+        this.ciclo = function () {
+          if (this.iniciouPasso) this.semiPasso();
+          return true;
+        };
+      }
+      spritePersonagem.prototype = Object.create(sprite.prototype);
+
+      /*---------------------------------------------------------------------------------------
+       Classe cenário criada através de função.
+       Mantém um vetor com todos os objetos em cena, e controla a criação e destruição destes 
+       objetos.
+      ---------------------------------------------------------------------------------------*/
+      function cenario(width, height, idCanvas, infoCanvas) {
+        this.missaoConcluida = false;
+        this.Norte = 0;
+        this.Leste = 0;
+        this.width = width;
+        this.height = height;
+        this.canvas = document.getElementById(idCanvas);
+        this.ctx = this.canvas.getContext("2d");
+
+        this.infoCanvas = document.getElementById(infoCanvas);
+        this.infoCtx = this.infoCanvas.getContext("2d");
+        this.infoCtx.font = "20px Arial";
+        this.tilesTerreno = []; // Vetor contendo as imagens de terreno e montanha para serem utilizadas no mapa atual...
+
+        this.limiteY = height;
+        this.tirosAtivos = 0;
+        this.missao = [0, 0, 0, 0, 0];
+        this.vida = VIDA_INICIAL;
+        this.experiencia = 10;
+
+        this.move = function (direcao) {
+          this.personagem.passo(direcao);
+        };
+
+        // Nesta função montamos o vetor de imagens de terrenos a serem utilizadas no mapa atual...
+        this.montaTerreno = function () {
+          /* Variando entre 6 grupos de terreno conforme a distância em Norte e Leste. Dividindo
+          por 5, fazemos com que vários grupos de terreno sejam de um tipo antes de passarmos para o tipo seguinte...*/
+          var variavelTerreno =
+            (Math.abs(Math.round((this.Norte * 1.3 + this.Leste * 1.2) / 5)) +
+              3) %
+            6;
+
+          // Dependendo do valor de SEMENTE, ao final da função o tilesTerreno irá ter valores de i e j específicos que vão dizer qual imagem usar do arquivo "terreno2.png"...
+
+          // Definindo terrenos de grama, pedra, entre outros...
+          for (i = 0; i < 6; i++) {
+            this.tilesTerreno[i] = {
+              i: 2 + i,
+              j: 1 + variavelTerreno,
+              tipo: TERRENO_LIVRE,
+            };
+          }
+
+          // Definindo montanhas...
+          variavelMontanha = 5;
+          if (variavelTerreno == 0) variavelMontanha = 6;
+          if (variavelTerreno == 1 || variavelTerreno == 2)
+            variavelMontanha = 7;
+          for (i = 6; i < 9; i++) {
+            this.tilesTerreno[i] = {
+              i: variavelMontanha,
+              j: i + 1,
+              tipo: TERRENO_BLOQUEADO,
+            };
+          }
+        };
+
+        /*---------------------------------------------------------------------------------------
+         Criamos um novo mapa, preenchendo this.mapa.
+        
+         Nesta função, utilizamos um cálculo matemático com base na posição Norte e Leste e uma 
+         semente para gerar os terrenos, cidades e monstros.
+        ---------------------------------------------------------------------------------------*/
+        this.novoCenario = function () {
+          this.montaTerreno();
+          var seed = SEMENTE;
+          var seedQuadrante = this.Norte * 1.3 + this.Leste * 1.2;
+          var incremento = Math.abs(seed);
+          var absolutoIncremento = 0;
+          var fator = 1.69079;
+
+          for (var i = 0; i < DIMENSAO_X; i++) {
+            this.mapa[i] = new Array(DIMENSAO_Y);
+            for (var j = 0; j < DIMENSAO_Y; j++) {
+              indiceTerreno = 0;
+              fator = fator + seed + seedQuadrante;
+              incremento += Math.abs(fator);
+              absolutoIncremento = Math.round(incremento);
+              if (
+                absolutoIncremento % 35 == 0 &&
+                i > 0 &&
+                j > 0 &&
+                i < 14 &&
+                j < 14
+              )
+                indiceTerreno = (absolutoIncremento % 3) + 6;
+              // 6, 7 e 8: terrenos montanha...
+              else indiceTerreno = absolutoIncremento % 6;
+              terreno = this.tilesTerreno[indiceTerreno];
+              this.mapa[i][j] = {
+                x: terreno.i,
+                y: terreno.j,
+                tipo: terreno.tipo,
+                valor: absolutoIncremento,
+              };
+
+              if (i <= 0 || j <= 0 || i >= 14 || j >= 14) continue;
+            }
+          }
+          if (this.Norte == 0 && this.Leste == 0) {
+            for (var i = 6; i < 9; i++)
+              for (var j = 6; j < 12; j++) {
+                this.mapa[i][j].tipo = TERRENO_CONSTRUCAO;
+              }
+            this.mapa[6][6].desenhacidade = 6;
+          } else {
+            for (var i = 1; i < DIMENSAO_X - 2; i++) {
+              for (var j = 1; j < DIMENSAO_Y - 3; j++) {
+                if (this.mapa[i][j].valor % 223 == 0) {
+                  var testaMonstroJaCriado = false;
+                  for (var k = 1; k < this.sprites.length; k++) {
+                    if (this.mapa[i][j].valor == this.sprites[k].valor) {
+                      if (
+                        this.sprites[k].norte == this.Norte &&
+                        this.sprites[k].leste == this.Leste
+                      )
+                        testaMonstroJaCriado = true;
+                    }
+                  }
+                  if (!testaMonstroJaCriado) {
+                    spriteMonstro = new spriteMonstros(
+                      i,
+                      j,
+                      this.ctx,
+                      this.mapa[i][j].valor % tipoMonstros.length,
+                      this.mapa[i][j].valor,
+                      this.Norte,
+                      this.Leste
+                    );
+                    this.sprites.push(spriteMonstro);
+                  }
+                }
+
+                // Caso determinada posição corresponda a uma cidade, as posições adjacentes também correspondem a mesma cidade...
+                if (this.mapa[i][j].valor % PARAMETRO_CIDADE == 0) {
+                  if (
+                    this.mapa[i][j].tipo == TERRENO_LIVRE &&
+                    this.mapa[i][j + 1].tipo == TERRENO_LIVRE &&
+                    this.mapa[i + 1][j].tipo == TERRENO_LIVRE &&
+                    this.mapa[i + 1][j + 1].tipo == TERRENO_LIVRE
+                  ) {
+                    tipoCidade = this.mapa[i][j].valor % 5;
+                    this.mapa[i][j].tipo = TERRENO_CONSTRUCAO;
+                    this.mapa[i][j].desenhacidade = 1 + tipoCidade;
+                    this.mapa[i][j].cidade = 1 + tipoCidade;
+                    this.mapa[i + 1][j].tipo = TERRENO_CONSTRUCAO;
+                    this.mapa[i + 1][j].cidade = 1 + tipoCidade;
+                    this.mapa[i][j + 1].tipo = TERRENO_CONSTRUCAO;
+                    this.mapa[i][j + 1].cidade = 1 + tipoCidade;
+                    this.mapa[i + 1][j + 1].tipo = TERRENO_CONSTRUCAO;
+                    this.mapa[i + 1][j + 1].cidade = 1 + tipoCidade;
+                  }
+                }
+              }
+            }
+          }
+        };
+
+        // Função inicial que cria o personagem e chama a função de criação do cenário "novoCenario"...
+        this.criaCenario = function (largura, altura) {
+          this.terreno = document.getElementById("terreno");
+          this.cidade = document.getElementById("cidades");
+          this.criaturas = document.getElementById("monstros");
+          this.mapa = new Array(DIMENSAO_X);
+          this.novoCenario();
+          this.sprites = [];
+          this.personagem = new spritePersonagem(0, 0, this.ctx);
+          this.personagem.largura = largura;
+          this.personagem.altura = altura;
+          this.personagem.limiteXmin = 0;
+          this.personagem.limiteXmax = this.width - largura;
+          this.sprites[0] = this.personagem;
+        };
+
+        // Função que realiza o movimento do personagem...
+        this.movePersonagem = function (x, y) {
+          // Se ultrapassamos alguma das bordas, alteramos a posição em Leste ou Norte e criamos novo cenário...
+          if (x >= 15 || x < 0 || y < 0 || y >= 14) {
+            if (x < 0) {
+              this.Leste--;
+              this.personagem.x = DIMENSAO_X * RESOLUCAO;
+            } else if (x >= 15) {
+              this.Leste++;
+              this.personagem.x = -RESOLUCAO;
+            } else if (y < 0) {
+              this.Norte--;
+              this.personagem.y = (DIMENSAO_Y - 1) * RESOLUCAO;
+            } else if (y >= 14) {
+              this.Norte++;
+              this.personagem.y = -RESOLUCAO;
+            }
+            this.novoCenario();
+            return true;
+          }
+
+          // Se estamos em uma cidade, recuperamos nossa vida...
+          if (this.mapa[x][y].cidade > 0) {
+            this.missao[this.mapa[x][y].cidade - 1] = 1;
+            this.vida = VIDA_INICIAL + this.experiencia;
+          }
+
+          // Testamos se a missão está concluída...
+          if (!this.missaoConcluida) {
+            testeMissao = true;
+            for (var i = 0; i < 5; i++) {
+              if (this.missao[i] != 1) testeMissao = false;
+            }
+            if (testeMissao) {
+              alert(
+                " Parabéns! Missão Concluída. Você pode continuar jogando se desejar."
+              );
+              this.missaoConcluida = true;
+            }
+          }
+        };
+
+        // Função que testa se há um combate, eliminando o monstro e alterando a vida e experiência do jogador...
+        this.testaCombate = function (x, y, forca, valorMonstro) {
+          if (
+            (x == this.personagem.posicaox && y == this.personagem.posicaoy) ||
+            (x == this.personagem.posicaox &&
+              y == this.personagem.posicaoy - 1) ||
+            (x == this.personagem.posicaox &&
+              y == this.personagem.posicaoy + 1) ||
+            (x == this.personagem.posicaox - 1 &&
+              y == this.personagem.posicaoy) ||
+            (x == this.personagem.posicaox - 1 &&
+              y == this.personagem.posicaoy - 1) ||
+            (x == this.personagem.posicaox - 1 &&
+              y == this.personagem.posicaoy + 1)
+          ) {
+            this.vida -= forca;
+            this.experiencia += forca / 3;
+            if (this.experiencia > 2000 - VIDA_INICIAL)
+              this.experiencia = 2000 - VIDA_INICIAL;
+            //this.monstrosMortos.push(valorMonstro)
+            return true;
+          }
+        };
+
+        // Função que retorna false (para impedir a movimentação) se houver algum obstáculo...
+        this.testaMovimento = function (x, y, testeMonstro) {
+          if (y < 0 || y >= 15 || x < 0 || x >= 15) return true;
+
+          if (this.mapa[x][y].tipo == TERRENO_BLOQUEADO) return false;
+          if (y < 14) {
+            if (this.mapa[x][y + 1].tipo == TERRENO_BLOQUEADO) return false;
+          }
+          if (testeMonstro) {
+            if (x < 14) {
+              if (this.mapa[x + 1][y].tipo == TERRENO_BLOQUEADO) return false;
+              if (y < 14) {
+                if (this.mapa[x + 1][y + 1].tipo == TERRENO_BLOQUEADO)
+                  return false;
+              }
+            }
+          }
+          return true;
+        };
+
+        // Função que limpa o cenário, desenha todas as posições do terreno, desenha as cidades e os sprites (personagem e monstros)...
+        this.desenhaCenario = function () {
+          this.ctx.clearRect(0, 0, this.width, this.limiteY);
+
+          for (var i = 0; i < DIMENSAO_X; i++)
+            for (var j = 0; j < DIMENSAO_Y; j++) {
+              this.ctx.drawImage(
+                this.terreno,
+                RESOLUCAO * this.mapa[i][j].x,
+                RESOLUCAO * this.mapa[i][j].y,
+                RESOLUCAO,
+                RESOLUCAO,
+                RESOLUCAO * i,
+                RESOLUCAO * j,
+                RESOLUCAO,
+                RESOLUCAO
+              );
+            }
+          for (var i = 0; i < DIMENSAO_X; i++)
+            for (var j = 0; j < DIMENSAO_Y; j++) {
+              if (
+                this.mapa[i][j].desenhacidade >= 1 &&
+                this.mapa[i][j].desenhacidade < 6
+              ) {
+                this.ctx.drawImage(
+                  this.cidade,
+                  RESOLUCAO * 2 * (this.mapa[i][j].desenhacidade - 1),
+                  0,
+                  RESOLUCAO * 2,
+                  RESOLUCAO * 2,
+                  RESOLUCAO * i,
+                  RESOLUCAO * j,
+                  RESOLUCAO * 2,
+                  RESOLUCAO * 2
+                );
+              } else if (this.mapa[i][j].desenhacidade == 6) {
+                this.ctx.drawImage(
+                  this.cidade,
+                  RESOLUCAO * 2 * (this.mapa[i][j].desenhacidade - 1),
+                  0,
+                  RESOLUCAO * 3,
+                  RESOLUCAO * 5,
+                  RESOLUCAO * i,
+                  RESOLUCAO * j,
+                  RESOLUCAO * 3,
+                  RESOLUCAO * 5
+                );
+              }
+            }
+          for (var i = 0; i < this.sprites.length; i++) {
+            this.sprites[i].desenha();
+          }
+
+          // Desenha a tela de informações, com quantidade de vida e experiência e as cinco cidades...
+          this.infoCtx.clearRect(0, 0, 280, 480);
+          for (var i = 0; i < 5; i++) {
+            if (this.missao[i] == 1) this.infoCtx.globalAlpha = 1;
+            else this.infoCtx.globalAlpha = 0.3;
+
+            this.infoCtx.drawImage(
+              this.cidade,
+              RESOLUCAO * 2 * i,
+              0,
+              RESOLUCAO * 2,
+              RESOLUCAO * 2,
+              0,
+              RESOLUCAO * 2 * i,
+              RESOLUCAO * 2,
+              RESOLUCAO * 2
+            );
+          }
+          this.infoCtx.globalAlpha = 1;
+
+          this.infoCtx.fillStyle = "green";
+          var barra = (this.vida / 2000) * 260;
+          this.infoCtx.fillRect(10, RESOLUCAO * 2 * 5 + 10, barra, 10);
+
+          this.infoCtx.fillStyle = "red";
+          barra = (this.experiencia / 2000) * 260;
+          this.infoCtx.fillRect(10, RESOLUCAO * 2 * 5 + 30, barra, 10);
+        };
+
+        // Executa um ciclo. Se o personagem não está na tela inicial, reduz sua vida...
+        this.ciclo = function () {
+          if (this.Norte == 0 && this.Leste == 0) {
+            this.vida = VIDA_INICIAL + this.experiencia;
+          } else {
+            this.vida -= 1;
+            if (this.vida < 0) {
+              alert("GAME OVER");
+              this.missao = [0, 0, 0, 0, 0];
+              this.Norte = 0;
+              this.Leste = 0;
+              this.personagem.posicaox = 0;
+              this.personagem.posicaoy = 0;
+              this.personagem.x = 0;
+              this.personagem.y = 0;
+              this.sprites = [];
+              this.sprites[0] = this.personagem;
+              this.vida = VIDA_INICIAL;
+              this.experiencia = 0;
+              this.novoCenario();
+            }
+          }
+          for (var i = 0; i < this.sprites.length; i++) {
+            this.sprites[i].ciclo();
+          }
+          this.desenhaCenario();
+        };
+      }
+
+      var oldX = 0;
+      var oldY = 400 - 44;
+      var tiroX = 0;
+      var meuCenario;
+      var intervalo = null;
+
+      function redesenha() {
+        meuCenario.desenhaCenario();
+      }
+
+      function executaCiclo() {
+        meuCenario.ciclo();
+      }
+
+      window.onload = function (e) {
+        dificuldade = prompt(
+          "Escolha o nível de dificuldade de 1-(Fácil) a 10-(Muito difícil) "
+        );
+        dificuldade--;
+        dificuldade = Math.abs(Math.round(dificuldade % 10));
+
+        testa_seed = prompt(
+          "Digite (-1) para gerar um mapa randômica. Caso queira jogar em mapas já definidos, escolha de 1 até 10."
+        );
+        testa_seed = Math.floor(testa_seed);
+        if (testa_seed < 0) testa_seed = Math.floor(Math.random() * 100000 + 1);
+        SEMENTE = testa_seed;
+
+        parametros_cidades = [
+          113, 349, 463, 601, 733, 863, 1019, 1087, 1153, 1579,
+        ];
+        parametros_vida = [1200, 900, 840, 790, 750, 650, 540, 480, 420, 300];
+        PARAMETRO_CIDADE = parametros_cidades[dificuldade];
+        VIDA_INICIAL = parametros_vida[dificuldade];
+        DIFICULDADE = dificuldade;
+
+        meuCenario = new cenario(
+          15 * RESOLUCAO,
+          15 * RESOLUCAO,
+          "myCanvas",
+          "infoCanvas"
+        );
+        meuCenario.criaCenario(36, 40);
+        meuCenario.desenhaCenario();
+        intervalo = window.setInterval(executaCiclo, 70);
+      };
+
+      document.addEventListener("keydown", function (event) {
+        meuCenario.move(event.keyCode);
+      });
+    </script>
+  </head>
+  <body>
+    <div id="main">
+      <div id="topo"><h1></h1></div>
+      <div id="contentwrapper">
+        <div id="colunaprincipal">
+          <canvas
+            id="myCanvas"
+            width="480"
+            height="480"
+            style="border: 1px solid #000000"
+          ></canvas>
+        </div>
+        <div id="colunainfo">
+          <canvas
+            id="infoCanvas"
+            width="280"
+            height="480"
+            style="border: 1px solid #000000"
+          ></canvas>
+        </div>
+      </div>
+      <div id="rodape">
+        <img src="heroi.png" id="personagem" style="display: none" />
+        <img src="terreno2.png" id="terreno" style="display: none" />
+        <img src="cidades3.png" id="cidades" style="display: none" />
+        <img src="monstros4.png" id="monstros" style="display: none" />
+      </div>
+    </div>
+  </body>
+</html>

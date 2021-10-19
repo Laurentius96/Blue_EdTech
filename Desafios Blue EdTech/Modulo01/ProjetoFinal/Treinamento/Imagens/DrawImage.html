@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mini Jogo de RPG - Treinado o uso do Draw Image</title>
+    <link rel="stylesheet" href="main.css" />
+    <script>
+      /*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      
+                                                                            Código para treinar o .drawImage
+
+      --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+      /*
+             window.onload = function(){}:
+             
+             É usado com o elemento janela para executar um script depois que a página da Web estiver completamente carregada. A função necessária para ser executada é atribuída como função manipuladora a esta propriedade. Ele executará a função assim que a página da web for carregada.
+
+            */
+      window.onload = function (e) {
+        var dimensao = 32;
+        var dimensaoCidades = dimensao * 2;
+
+        /*
+                getElementById(): 
+                
+                Retorna o elemento que tem o atributo ID com o valor especificado.
+                Este método é um dos métodos mais comuns no DOM HTML, e é usado quase toda vez que você quer manipular ou obter informações de um elemento em seu documento.
+                Retorna nulo se não houver elementos com o ID especificado.
+                Um ID deve ser único dentro de uma página. No entanto, se houver mais de um elemento com o ID especificado, o método getElementById() retorna o primeiro elemento no código-fonte.
+                */
+
+        var imagemCidade = document.getElementById("cidades");
+        var imagemMonstros = document.getElementById("monstros");
+        var canvas = document.getElementById("myCanvas");
+
+        /*
+                canvasElement.getContext():
+
+                retorna um contexto de desenho no canvas, ou null se o contexto identificado não é suportado.
+               */
+
+        var ctx = canvas.getContext("2d");
+
+        /* 
+                variações para testar às posições das imagens no canvas...
+                                            (-------imagem------)  (---- no canvas ----)
+                ctx.drawImage(imagemCidade, X, Y, ALTURA, LARGURA, X, Y, ALTURA, LARGURA);
+        
+        */
+
+        // ctx.drawImage(imagemCidade, 0, 0);
+        // ctx.drawImage(imagemCidade, 0, 0, 64, 64);
+        // ctx.drawImage(imagemCidade, 0, 0, 64, 64, 0, 0, 64, 64);
+        ctx.drawImage(imagemCidade, 0, 0, 64, 64, 64, 64, 64, 64);
+        ctx.drawImage(imagemCidade, 0, 0, 64, 64, 0, 0, 32, 32);
+        // ctx.drawImage(imagemCidade, 0, 0, 64, 64, 0, 0, 128, 128);
+        // ctx.drawImage(imagemCidade, 64, 0, 64, 64, 0, 0, 64, 64);
+        // ctx.drawImage(imagemCidade, 128, 0, 64, 64, 0, 0, 64, 64);
+        // ctx.drawImage(
+        //   imagemCidade,
+        //   3 * dimensaoCidades,
+        //   0,
+        //   dimensaoCidades,
+        //   dimensaoCidades,
+        //   1 * dimensao,
+        //   1 * dimensao,
+        //   dimensaoCidades,
+        //   dimensaoCidades
+        // );
+        // ctx.drawImage(imagemMonstros, 0, 0);
+        // ctx.drawImage(
+        //   imagemMonstros,
+        //   5 * dimensaoCidades,
+        //   4 * dimensaoCidades,
+        //   dimensaoCidades,
+        //   dimensaoCidades,
+        //   0 * dimensao,
+        //   0 * dimensao,
+        //   dimensaoCidades,
+        //   dimensaoCidades
+        // );
+      };
+    </script>
+  </head>
+  <body>
+    <div id="main">
+      <div id="topo"><h1></h1></div>
+      <div id="contentwrapper">
+        <div id="colunaprincipal">
+          <canvas
+            id="myCanvas"
+            width="480"
+            height="480"
+            style="border: 1px solid #000000"
+          ></canvas>
+        </div>
+      </div>
+      <div id="rodape">
+        <img src="cidades3.png" id="cidades" style="display: none" />
+        <img src="monstros4.png" id="monstros" style="display: none" />
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mini Jogo de RPG - Treinado a geração de cenário</title>
+    <link rel="stylesheet" href="main.css" />
+    <script>
+      /*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+                                                              Código para treinar a criação de cenário.
+
+     ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+      // Declaração de variáveis:
+      var VIDA_INICIAL = 300;
+      var PARAMETRO_CIDADE = 1;
+      var SEMENTE = 0;
+      var DIFICULDADE = 1;
+
+      var TERRENO_LIVRE = "0";
+      var TERRENO_BLOQUEADO = "1";
+      var TERRENO_CONSTRUCAO = "2";
+
+      var OESTE = 37;
+      var NORTE = 38;
+      var LESTE = 39;
+      var SUL = 40;
+
+      // A unidade de posição é de 32 pixels. Desenhos de mais de 32 pixels ocupam mais de uma posição...
+      var RESOLUCAO = 32;
+
+      // O cenário terá 15 posições na horizontal e 15 na vertical...
+      var DIMENSAO_X = 15;
+      var DIMENSAO_Y = 15;
+
+      /*
+      Classe cenario criada através de função.
+      Mantém um vetor com todos os objetos em cena, e controla a criação e destruição destes objetos.
+      */
+      function cenario(width, height, idCanvas, infoCanvas) {
+        this.missaoConcluida = false;
+        this.Norte = 0;
+        this.Leste = 0;
+        this.width = width;
+        this.height = height;
+        this.canvas = document.getElementById(idCanvas);
+        this.ctx = this.canvas.getContext("2d");
+        this.tilesTerreno = []; // Trata-se de um vetor contendo as imagens de terreno e montanha para serem utilizadas no mapa atual...
+        this.limiteY = height;
+
+        // Nesta função montamos o vetor de imagens de terrenos a serem utilizadas no mapa atual...
+        this.montaTerreno = function () {
+          
+          // Está variando entre 6 grupos de terreno conforme a distância em Norte e Leste. Dividindo por 5, fazemos com que vários grupos de terreno sejam de um tipo antes de passarmos para o tipo seguinte...
+          var variavelTerreno =
+            (Math.abs(Math.round((this.Norte * 1.3 + this.Leste * 1.2) / 5)) + 3) %
+            6;
+
+          // Dependendo do valor de SEMENTE, ao final da função o tilesTerreno irá ter valores de i e j específicos que vão dizer qual imagem usar do arquivo "terreno2.png"
+
+          // Definindo terrenos de grama, pedra, etc...
+          for (i = 0; i < 6; i++) {
+            this.tilesTerreno[i] = {
+              i: 2 + i,
+              j: 1 + variavelTerreno,
+              tipo: TERRENO_LIVRE,
+            };
+          }
+
+          // Definindo montanhas...
+          variavelMontanha = 5;
+          if (variavelTerreno == 0) variavelMontanha = 6;
+          if (variavelTerreno == 1 || variavelTerreno == 2)
+            variavelMontanha = 7;
+          for (i = 6; i < 9; i++) {
+            this.tilesTerreno[i] = {
+              i: variavelMontanha,
+              j: i + 1,
+              tipo: TERRENO_BLOQUEADO,
+            };
+          }
+        };
+
+        /*
+        Criando um novo mapa, preenchendo this.mapa.
+        Nesta função, utilizamos um cálculo matemático com base na posição Norte e Leste e uma semente para gerar os terrenos, cidades e monstros.
+        É chamada cada vez que o heroi passa de um cenário para o próximo... 
+        */
+        this.novoCenario = function () {
+          this.montaTerreno();
+          var seed = SEMENTE;
+          var seedQuadrante = this.Norte * 1.3 + this.Leste * 1.2;
+          var incremento = Math.abs(seed);
+          var absolutoIncremento = 0;
+          var fator = 1.69079;
+
+          // Para pecorrer todos os quadras (quadrantes) que componhem aquele terreno, indo de 0 até 14, para criar um terreno 15x15... 
+          for (var i = 0; i < DIMENSAO_X; i++) {
+            this.mapa[i] = new Array(DIMENSAO_Y); // armazenado o terreno em mapa[i]...
+            for (var j = 0; j < DIMENSAO_Y; j++) {
+              indiceTerreno = 0;
+              fator = fator + seed + seedQuadrante;
+              incremento += Math.abs(fator);
+              absolutoIncremento = Math.round(incremento);
+              if (absolutoIncremento % 35 == 0)
+                indiceTerreno = (absolutoIncremento % 3) + 6;
+              // Aqui 6, 7 e 8: terrenos montanha
+              else indiceTerreno = absolutoIncremento % 6;
+              terreno = this.tilesTerreno[indiceTerreno];
+              this.mapa[i][j] = {
+                x: terreno.i,
+                y: terreno.j,
+                tipo: terreno.tipo,
+                valor: absolutoIncremento,
+              };
+            }
+          }
+          for (var i = 1; i < DIMENSAO_X - 2; i++) {
+            for (var j = 1; j < DIMENSAO_Y - 3; j++) {
+              // Caso determinada posição corresponda a uma cidade, as posições adjacentes também correspondem a mesma cidade.
+              if (this.mapa[i][j].valor % PARAMETRO_CIDADE == 0) {
+                if (
+                  this.mapa[i][j].tipo == TERRENO_LIVRE &&
+                  this.mapa[i][j + 1].tipo == TERRENO_LIVRE &&
+                  this.mapa[i + 1][j].tipo == TERRENO_LIVRE &&
+                  this.mapa[i + 1][j + 1].tipo == TERRENO_LIVRE
+                ) {
+                  tipoCidade = this.mapa[i][j].valor % 5;
+                  this.mapa[i][j].tipo = TERRENO_CONSTRUCAO;
+                  this.mapa[i][j].desenhacidade = 1 + tipoCidade;
+                  this.mapa[i][j].cidade = 1 + tipoCidade;
+                  this.mapa[i + 1][j].tipo = TERRENO_CONSTRUCAO;
+                  this.mapa[i + 1][j].cidade = 1 + tipoCidade;
+                  this.mapa[i][j + 1].tipo = TERRENO_CONSTRUCAO;
+                  this.mapa[i][j + 1].cidade = 1 + tipoCidade;
+                  this.mapa[i + 1][j + 1].tipo = TERRENO_CONSTRUCAO;
+                  this.mapa[i + 1][j + 1].cidade = 1 + tipoCidade;
+                }
+              }
+            }
+          }
+        };
+
+        // Função inicial que cria o personagem e chama a função de criação do cenário "novoCenario"...
+        this.criaCenario = function (largura, altura) {
+          this.terreno = document.getElementById("terreno");
+          this.cidade = document.getElementById("cidades");
+          this.criaturas = document.getElementById("monstros");
+          this.mapa = new Array(DIMENSAO_X);
+          this.novoCenario();
+        };
+
+        // Função que limpa o cenário, desenha todas as posições do terreno, desenha as cidades e os sprites (personagem e monstros)...
+        this.desenhaCenario = function () {
+          this.ctx.clearRect(0, 0, this.width, this.limiteY);
+
+          for (var i = 0; i < DIMENSAO_X; i++)
+            for (var j = 0; j < DIMENSAO_Y; j++) {
+              this.ctx.drawImage(
+                this.terreno,
+                RESOLUCAO * this.mapa[i][j].x,
+                RESOLUCAO * this.mapa[i][j].y,
+                RESOLUCAO,
+                RESOLUCAO,
+                RESOLUCAO * i,
+                RESOLUCAO * j,
+                RESOLUCAO,
+                RESOLUCAO
+              );
+            }
+          for (var i = 0; i < DIMENSAO_X; i++)
+            for (var j = 0; j < DIMENSAO_Y; j++) {
+              if (
+                this.mapa[i][j].desenhacidade >= 1 &&
+                this.mapa[i][j].desenhacidade < 6
+              ) {
+                this.ctx.drawImage(
+                  this.cidade,
+                  RESOLUCAO * 2 * (this.mapa[i][j].desenhacidade - 1),
+                  0,
+                  RESOLUCAO * 2,
+                  RESOLUCAO * 2,
+                  RESOLUCAO * i,
+                  RESOLUCAO * j,
+                  RESOLUCAO * 2,
+                  RESOLUCAO * 2
+                );
+              } else if (this.mapa[i][j].desenhacidade == 6) {
+                this.ctx.drawImage(
+                  this.cidade,
+                  RESOLUCAO * 2 * (this.mapa[i][j].desenhacidade - 1),
+                  0,
+                  RESOLUCAO * 3,
+                  RESOLUCAO * 5,
+                  RESOLUCAO * i,
+                  RESOLUCAO * j,
+                  RESOLUCAO * 3,
+                  RESOLUCAO * 5
+                );
+              }
+            }
+        };
+      }
+
+      var oldX = 0;
+      var oldY = 400 - 44;
+      var tiroX = 0;
+      var meuCenario;
+      var intervalo = null;
+
+      function redesenha() {
+        meuCenario.desenhaCenario();
+      }
+
+      /*
+      .onload:
+      
+      Função que é chamada qunado a página web é carregada.
+      */
+      window.onload = function (e) {
+        dificuldade = prompt(
+          "Escolha o nível de dificuldade de 1 (Fácil) a 10 (Muito difícil) "
+        );
+        dificuldade--; // Diminuir o parâmetro em 1, ele será usado para gerar o mapa que está na linha 223-225,
+        dificuldade = Math.abs(Math.round(dificuldade % 10));
+
+        testa_seed = prompt(
+          "Entre com semente inicial, (-1) para gerar um mapa randômico. Demais mapas de 1 até 10."
+        );
+        testa_seed = Math.floor(testa_seed);
+        if (testa_seed < 0) testa_seed = Math.floor(Math.random() * 100000 + 1);
+        SEMENTE = testa_seed;
+        parametros_cidades = [
+          113, 349, 463, 601, 733, 863, 1019, 1087, 1153, 1579,
+        ];
+        PARAMETRO_CIDADE = parametros_cidades[dificuldade];
+
+        meuCenario = new cenario(
+          15 * RESOLUCAO,
+          15 * RESOLUCAO,
+          "myCanvas",
+          "infoCanvas"
+        );
+        meuCenario.criaCenario(36, 40);
+        meuCenario.desenhaCenario();
+      };
+    </script>
+  </head>
+  <body>
+    <div id="main">
+      <div id="topo"><h1></h1></div>
+      <div id="contentwrapper">
+        <div id="colunaprincipal">
+          <canvas
+            id="myCanvas"
+            width="480"
+            height="480"
+            style="border: 1px solid #000000"
+          ></canvas>
+        </div>
+        <div id="colunainfo">
+          <canvas
+            id="infoCanvas"
+            width="280"
+            height="480"
+            style="border: 1px solid #000000"
+          ></canvas>
+        </div>
+      </div>
+      <div id="rodape">
+        <img src="heroi.png" id="personagem" style="display: none" />
+        <img src="terreno2.png" id="terreno" style="display: none" />
+        <img src="cidades3.png" id="cidades" style="display: none" />
+        <img src="monstros4.png" id="monstros" style="display: none" />
+      </div>
+    </div>
+  </body>
+</html>

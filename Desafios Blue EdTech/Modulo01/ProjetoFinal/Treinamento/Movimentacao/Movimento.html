@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mini Jogo de RPG - Treinado a movimentação do personagem</title>
+    <link rel="stylesheet" href="main.css" />
+    <script>
+      /*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+                                                              Código para treinar a movimentação do personagem
+
+      ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+      // Declaração das variáveis:
+      var OESTE = 37;
+      var NORTE = 38;
+      var LESTE = 39;
+      var SUL = 40;
+
+      var TAMANHO_CELULA = 32;
+      var ALTURA_PERSONAGEM = 48;
+      var IMAGEM_FRENTE = 0;
+      var IMAGEM_COSTAS = 3;
+      var IMAGEM_DIREITA = 2;
+      var IMAGEM_ESQUERDA = 1;
+
+      /*
+        sprite:
+
+        É uma função principal de desenho e controle de objetos no jogo.
+        Todos os objetos em cena são derivados desta função.
+      */
+
+      function sprite(x, y, ctx) {
+        this.x = x;
+        this.y = y;
+        this.oldx = x;
+        this.oldy = y;
+        this.ctx = ctx;
+
+        this.etapaPasso = 0;
+        this.iniciouPasso = false;
+        this.iniciouDirecao = 0;
+        this.direcaoImagem = 0;
+
+        this.semiPasso = function () {
+          var posicaoInterna_Celula =
+            (((this.etapaPasso % 4) + 1) / 4) * TAMANHO_CELULA;
+
+          /*
+            switch:
+
+            A condicional switch avalia uma expressão, combinando o valor da expressão para um cláusula case, e executa as instruções associadas ao case.
+
+            Se a condição for correspondida, o programa executa as instruções asssociadas. Se múltiplos casos corresponderem o valor, o primeiro caso que corresponder é selecionado, mesmo se os casos não forem iguais entre si.
+
+
+          */
+
+          switch (this.iniciouDirecao) {
+            case NORTE:
+              this.y = this.oldy - posicaoInterna_Celula;
+              this.direcaoImagem = IMAGEM_COSTAS;
+              break;
+            case SUL:
+              this.y = this.oldy + posicaoInterna_Celula;
+              this.direcaoImagem = IMAGEM_FRENTE;
+              break;
+            case LESTE:
+              this.x = this.oldx + posicaoInterna_Celula;
+              this.direcaoImagem = IMAGEM_DIREITA;
+              break;
+            case OESTE:
+              this.x = this.oldx - posicaoInterna_Celula;
+              this.direcaoImagem = IMAGEM_ESQUERDA;
+              break;
+            default:
+              break;
+          }
+
+          this.etapaPasso = (this.etapaPasso + 1) % 4;
+          if (this.etapaPasso == 0) {
+            this.iniciouPasso = false;
+          }
+        };
+
+        // Aqui é onde mostra as imagens do personagem quando ele anda...
+        this.desenha = function () {
+          this.ctx.drawImage(
+            this.imagem,
+            this.etapaPasso * TAMANHO_CELULA,
+            this.direcaoImagem * ALTURA_PERSONAGEM,
+            TAMANHO_CELULA,
+            ALTURA_PERSONAGEM,
+            this.x,
+            this.y + 10,
+            TAMANHO_CELULA,
+            ALTURA_PERSONAGEM
+          );
+        };
+
+        /*
+          .passo:
+          
+          Quando a tecla precionada é chamada o comando .passo do perdonagem.
+
+          Se o passo já foi iniciado não é feito nada - (!this.iniciouPasso) - para evitar que ao clicar um, duas três vezes tenha um éfeito diferente. 
+          
+        */
+
+        this.passo = function (direcao) {
+          if (!this.iniciouPasso) {
+            var tempx = -1;
+            var tempy = -1;
+            this.iniciouPasso = true;
+            this.iniciouDirecao = direcao;
+            this.oldx = this.x;
+            this.oldy = this.y;
+          }
+        };
+        this.setaMovimento = function (dx, dy) {
+          this.x = dx;
+          this.y = dy;
+        };
+      }
+      /*
+          .prototype
+
+          Protótipos são o mecanismo pelo qual objetos JavaScript herdam recursos uns dos outros. Neste artigo, explicamos como as cadeias de protótipos funcionam e observamos como a propriedade prototype pode ser usada para adicionar métodos aos construtores existentes.
+        */
+
+      sprite.prototype.ciclo = function () {
+        if (!this.ativo) return false;
+        this.x = this.x + this.dx;
+        this.y = this.y + this.dy;
+        return true;
+      };
+
+      /*
+          spritePersonagem
+          derivada de: sprite
+          controla o personagem do jogador
+      */
+
+      function spritePersonagem(x, y, ctx, idImagem) {
+        this.imagem = document.getElementById(idImagem);
+        sprite.call(this, x, y, ctx);
+        this.ciclo = function () {
+          if (this.iniciouPasso) this.semiPasso();
+          return true;
+        };
+      }
+      spritePersonagem.prototype = Object.create(sprite.prototype);
+
+      /*
+          Classe cenario criada através de função.
+          Mantém um vetor com todos os objetos em cena, e controla a criação e destruição destes objetos.
+      */
+
+      function cenario(width, height, idCanvas, idInimigo) {
+        this.width = width;
+        this.height = height;
+        this.canvas = document.getElementById(idCanvas);
+        this.ctx = this.canvas.getContext("2d");
+
+        this.move = function (direcao) {
+          this.personagem.passo(direcao);
+        };
+
+        this.criaCenario = function () {
+          this.sprites = [];
+          this.personagem = new spritePersonagem(0, 0, this.ctx, "personagem");
+          this.sprites[0] = this.personagem;
+        };
+
+        this.desenhaCenario = function () {
+          this.ctx.clearRect(0, 0, this.width, this.height);
+          for (var i = 0; i < this.sprites.length; i++) {
+            this.sprites[i].desenha();
+          }
+        };
+
+        this.ciclo = function () {
+          for (var i = 0; i < this.sprites.length; i++) {
+            this.sprites[i].ciclo();
+          }
+          this.desenhaCenario();
+        };
+      }
+
+      var meuCenario;
+      var intervalo = null;
+
+      function executaCiclo() {
+        meuCenario.ciclo();
+      }
+
+      window.onload = function (e) {
+        meuCenario = new cenario(480, 480, "myCanvas", "inimigo");
+        meuCenario.criaCenario();
+        meuCenario.desenhaCenario();
+        intervalo = window.setInterval(executaCiclo, 100);
+      };
+
+      /*
+      .addEventListener
+      
+      Comando para capituira o evento "KEYDOWN"
+        - Quando uma tecla for precinada a função (meuCenario.move()), será executada e receberá como parámetro (event.keyCode) - o código da tecla precinada.
+
+      Quanda precionado a tecla aciona o comando ".passo" do personagem - linha 98. 
+      */
+
+      document.addEventListener("keydown", function (event) {
+        meuCenario.move(event.keyCode);
+      });
+    </script>
+  </head>
+  <body>
+    <div id="main">
+      <div id="topo"><h1></h1></div>
+      <div id="contentwrapper">
+        <div id="colunaprincipal">
+          <canvas
+            id="myCanvas"
+            width="480"
+            height="480"
+            style="border: 1px solid #000000"
+          ></canvas>
+        </div>
+      </div>
+      <div id="rodape">
+        <img src="heroi.png" id="personagem" style="display: none" />
+      </div>
+    </div>
+  </body>
+</html>
