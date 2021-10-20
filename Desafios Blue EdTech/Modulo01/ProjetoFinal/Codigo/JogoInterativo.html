@@ -8,15 +8,22 @@
 
                                                               Código do Jogo Interativo - Lorenzo C. Bianchi
                                                               
-          Olá pessoal, queria deixar claro tive MUITA, mas MUITA mentorias de amigos e segui muitos tutoriais do YouTube para criar esse código. Aconselho ir na pasta 'Treinamento',
-          lá têm a base de forma mais enxuta dos códigos e foi treinei nas partes: da movimentação do personagem, da criação de cenário randômico e do uso do DrawImage.
+          Olá pessoal, queria deixar claro tive MUITA, mas MUITA ajuda, foi mentorado por amigos que já são proficionais na área e segui MUITOS tutoriais do YouTube para criar esse 
+          código. Aconselho ir na pasta 'Treinamento',lá têm a base de forma mais enxuta do código abaixo onde individualmente será mostrado: a movimentação do personagem, a criação 
+          de cenário randômico e do uso do DrawImage. 
 
-          As partes de criação de cenário infinitos, 
+          O jogo é simples, mas espero que gostem S2.
 
-          O é simples, mas espero que gostem...
-
-
-                                                             
+          OBJETIVO: Chegar em todas às cidades no mapa. A imagem de cada cidade está no lado direto da tela. 
+          DETALHES: 1) Ao sair do área inicial sua vida (barra verde) irá abaixar; 
+                      1.1) Sua vida só irá ser restaurada quando chegar em uma cidade (a mesma cidade pode restaurar sua vida mais de uma vez!).
+                    
+                    2) Ao encostar no mostros você irá "batalhar" - Sua vida irá baixar de acordo com o poder do mostro.   
+                      2.1) Se sua vida atual for maior que o poder do mostro, você ganha a batalha;
+                      2.2) Se sua vida atual for menor que o poder do mostro, você irá morrer (GAME OVER!);  
+                      2.3) Ao ganhar a batalha, você ganha XP (barra vermelha) que irá te forncer mais vida. Só irá aparecer quando você restaurar ela em uma cidade.            
+                      
+                    3) As dificulade (quando elevada) faz com que as cidades fiquem mais longe e que você tenha menos vida no início da partida.
 
       ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
       // Declaração de variáveis...
@@ -228,8 +235,8 @@
         this.direcaoImagem = 0;
         sprite.call(this, posicaox, posicaoy, ctx);
 
-        // Semipasso é a implementação do processo de caminhar de uma posição para a seguinte.
-        //o personagem sempre inicia e termina um movimento em uma posição exata.
+        /* Semipasso é a implementação do processo de caminhar de uma posição para a seguinte.
+           o personagem sempre inicia e termina um movimento em uma posição exata.*/
         this.semiPasso = function () {
           if (this.iniciouDirecao == NORTE) {
             this.y = this.oldy - (((this.etapaPasso % 4) + 1) / 4) * RESOLUCAO;
@@ -392,6 +399,7 @@
         
          Nesta função, utilizamos um cálculo matemático com base na posição Norte e Leste e uma 
          semente para gerar os terrenos, cidades e monstros.
+        
         ---------------------------------------------------------------------------------------*/
         this.novoCenario = function () {
           this.montaTerreno();
@@ -565,7 +573,7 @@
             this.experiencia += forca / 3;
             if (this.experiencia > 2000 - VIDA_INICIAL)
               this.experiencia = 2000 - VIDA_INICIAL;
-            //this.monstrosMortos.push(valorMonstro)
+            // this.monstrosMortos.push(valorMonstro)
             return true;
           }
         };
@@ -717,13 +725,13 @@
 
       window.onload = function (e) {
         dificuldade = prompt(
-          "Escolha o nível de dificuldade de 1-(Fácil) a 10-(Muito difícil) "
+          "Escolha o nível de dificuldade de 1 (Fácil) a 10 (Muito difícil). Outro valor irá gerar erro! "
         );
         dificuldade--;
         dificuldade = Math.abs(Math.round(dificuldade % 10));
 
         testa_seed = prompt(
-          "Digite (-1) para gerar um mapa randômica. Caso queira jogar em mapas já definidos, escolha de 1 até 10."
+          "Digite (-1) para gerar um mapa randômico. Caso queira jogar em mapas já definidos, escolha de 1 até 10. Outro valor irá gerar erro!"
         );
         testa_seed = Math.floor(testa_seed);
         if (testa_seed < 0) testa_seed = Math.floor(Math.random() * 100000 + 1);

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Mini Jogo de RPG - Treinado a geração de cenário</title>
+    <title>Mini Jogo Interativo - Treinando a geração de cenário</title>
     <link rel="stylesheet" href="main.css" />
     <script>
       /*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -115,7 +115,7 @@
           }
           for (var i = 1; i < DIMENSAO_X - 2; i++) {
             for (var j = 1; j < DIMENSAO_Y - 3; j++) {
-              // Caso determinada posição corresponda a uma cidade, as posições adjacentes também correspondem a mesma cidade.
+              // Caso determinada posição corresponda a uma cidade, as posições adjacentes também correspondem a mesma cidade...
               if (this.mapa[i][j].valor % PARAMETRO_CIDADE == 0) {
                 if (
                   this.mapa[i][j].tipo == TERRENO_LIVRE &&
