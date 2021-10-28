@@ -72,3 +72,4 @@ console.log(pessoa.bio());
 
 pessoa.blumer = true;
 console.log(pessoa);
+
