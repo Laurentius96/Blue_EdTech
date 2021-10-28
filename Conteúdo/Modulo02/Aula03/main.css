@@ -1,0 +1,65 @@
+/* 
+Seletor de elemento: 
+Eu uso apenas o nome do elemento e o estilo será aplicado a todos os elementos desse tipo
+Ex: <section>
+*/
+section {
+    background-color: aquamarine;
+}
+
+/* 
+Múltiplos elementos: 
+Seleciona vários elementos para ser aplicado o estilo
+*/
+p,
+h3 {
+    color: red;
+    text-decoration: underline;
+}
+
+/*
+Seleciona apenas os elementos pertecente aos outros elementos especificados
+Ex: <section>
+        <article>
+            <p> -> o estilo seria aplicado aqui
+*/
+section article p {
+    font-weight: bold;
+}
+
+/*
+Seletor de ID:
+Aplica o estilo ao elemento com a ID especificada
+Ex: <elemento id="li1">
+*/
+#li1 {
+    color: blue;
+}
+
+/*
+Seletor de Classe: 
+Seleciona todos os elementos que pertencem à classe especificada
+Ex: <elemento class="li2">
+    <elemento2 class="li2">
+*/
+.li2 {
+    color: green;
+}
+
+
+/*
+Crinado o conteiner, por padrão ele pegar horizontal 
+Olhar a imagem 'Flexbox.png'
+*/
+.container {
+    border: 5px solid blue;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.container *{
+    border: 1px solid black;
+}
+

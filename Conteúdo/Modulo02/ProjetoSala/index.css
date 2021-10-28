@@ -1,4 +1,21 @@
-.Apresentacao{
+* {
+    background: rgb(7, 11, 43)
+}
+
+main {
     font-weight: bold;
-    color: red;
+    color: white;
+}
+
+.container {
+    display: flex;
+
+}
+
+.texto1 {
+    align-self: ;
+}
+
+.texto2 {
+    align-self: flex-end;
 }
