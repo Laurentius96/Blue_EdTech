@@ -94,3 +94,11 @@ for (let i of catalogo) {
 for (let i of catalogo) {
   console.log(Object.values(i));
 }
+
+// // As chaves e os valores do objeto;
+for (let i of catalogo) {
+  console.log(Object.entries(i));
+}
+
+//  // 
+

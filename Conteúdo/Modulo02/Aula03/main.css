@@ -59,7 +59,10 @@ Olhar a imagem 'Flexbox.png'
     align-items: center;
 }
 
-.container *{
+.container * {
     border: 1px solid black;
 }
 
+#intemFilho {
+    order: -1;
+}
