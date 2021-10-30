@@ -1,3 +1,7 @@
+/* #btn-texto {
+    display: flex;
+} */
+
 .container1 {
     display: flex;
     justify-content: space-between;
@@ -11,6 +15,10 @@
     align-items: center;
     gap: 25px;
 
+}
+
+.container3 {
+    display: flex;
 }
 
 header {
