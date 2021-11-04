@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <!-- Aqui em head eu vou colocar o que meu navegador precisa saber antes de carregar o conteúdo -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Aqui eu faço a ligação do meu HTML com o CSS, determinando onde está o arquivo -->
+    <link rel="stylesheet" href="./main.css" />
+
+    <!-- Título da minha página-->
+    <title>Blue EdTech: M02 - Aula 03</title>
+    <!-- Fechamento da tag head -->
+  </head>
+
+  <!-- Aqui em body eu coloco todo o conteúdo da página -->
+  <body>
+    <!-- header é usado para cabeçalhos. Dentro dele vou colocar os conteúdos-->
+    <header id="titulo">
+      <h1>Aula 02 - Codelab</h1>
+      <h3>Projeto 1 - Jogo do humor</h3>
+    </header>
+    <main>
+      <section id="primeira">
+        <h2>Revisão da aula anterior</h2>
+        <!-- <ul> cria uma lista "não ordenada"-->
+        <ul>
+          <!-- Cada elemento da minha lista é uma <li> -->
+          <li id="li1">Revisão HTML</li>
+          <li class="li2">HTML Semântico</li>
+          <li class="li2">Introdução ao CSS</li>
+        </ul>
+        <button id="btn-texto">Adicionar texto</button>
+      </section>
+      <section class="container">
+        <h2>Explicação do projeto 1</h2>
+        <h3>Jogo do Humor</h3>
+        <article>
+          <img
+            src="doge.png"
+            alt="Imagem do Doge, ilustrando o jogo do humor"
+            width="100px"
+          />
+          <p>
+            Nós vimos como será feiro o primeiro projeto entregável e as
+            exigências.
+          </p>
+        </article>
+        <article>
+          <h4>Como entregar o projeto no GitHub Pages:</h4>
+          <iframe
+            width="360px"
+            height="315px"
+            src="https://www.youtube-nocookie.com/embed/TSTk1xjeWro"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+        </article>
+      </section>
+    </main>
+    <footer>
+      <p>2021 - Blue EdTech</p>
+    </footer>
+    <!-- Aqui eu faço a ligação do meu HTML com o Script, determinando onde está o arquivo -->
+    <script src="./script.js"></script>
+  </body>
+</html>
