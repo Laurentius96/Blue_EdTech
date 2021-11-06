@@ -11,17 +11,18 @@
     <header>
       <!--  <nav> É utilizado quando precisamos representar um agrupamento de links de navegação, que, por sua vez, são criados com os elementos <ul>, <li> e <a>. -->
       <nav>
+        <!-- "SRC" é um atributo especifica a localização (URL) do recurso externo.src -->
         <img
-          src="/img/pokedex.jpg"
+          src="/img/pokedex.png"
           class="img"
           alt="Logo tradicional Pokédex"
         />
         <!-- <ul> É lista não ordenada -->
         <ul>
           <li>
-            <!-- <a> É uma âncora: usado para ligar a outro recurso web -->
+            <!-- <a>  Descrever um link, conectando os diversos documentos de um site e permitindo a navegação por esse conteúdo. Normalmente esses documentos estão relacionados por compartilharem um assunto em comum. É uma âncora: usado para ligar a outro recurso web -->
             <a href="/">Home</a>
-            <!-- o atributo HREF é especifica o destino do link:-->
+            <!-- o atributo "HREF" é especifica o destino do link:-->
           </li>
           <li>
             <a href="/cadastro">Cadastro</a>
@@ -29,14 +30,27 @@
         </ul>
       </nav>
     </header>
+
+    <% if(message != "") { %>
+    <section class="message">
+      <p><%= message %></p>
+      <span class="close">&times;</span>
+    </section>
+    <% } %>
+
     <main class="index">
-      <%pokedex.forEach((pokedex,find) => {%>
-      <section class="ordem_pokemon">
-        <article class="apresentacao_pokemon">
-          <a href="/detalhes/<%= find"><img class="img" src="<%= pokemon.photo %>"> </a>
+      <% pokedex.forEach((pokedex, find) => { %>
+      <section class="wrapper">
+        <article class="card_content">
+          <a href="/detalhes/<%= find %>"
+            ><img class="img" src="<%= pokedex.photo %>"
+          /></a>
+          <p class="name"><%= pokedex.name %></p>
+          <p class="type"><%= pokedex.type %></p>
         </article>
       </section>
-      <%})%>
+      <% }) %>
     </main>
+    <script src="/js/script.js"></script>
   </body>
 </html>

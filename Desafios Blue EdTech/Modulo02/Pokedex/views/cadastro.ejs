@@ -1,13 +1,134 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/css/style.css" />
     <title>BlueEdTech: Projeto Pokédex</title>
-</head>
-<body>
-    
-</body>
+  </head>
+  <body>
+    <header>
+      <!--  <nav> É utilizado quando precisamos representar um agrupamento de links de navegação, que, por sua vez, são criados com os elementos <ul>, <li> e <a>. -->
+      <nav>
+        <!-- "SRC" é um atributo especifica a localização (URL) do recurso externo.src -->
+        <img
+          src="/img/pokedex.png"
+          class="img"
+          alt="Logo tradicional Pokédex"
+        />
+        <!-- <ul> É lista não ordenada -->
+        <ul>
+          <li>
+            <!-- <a>  Descrever um link, conectando os diversos documentos de um site e permitindo a navegação por esse conteúdo. Normalmente esses documentos estão relacionados por compartilharem um assunto em comum. É uma âncora: usado para ligar a outro recurso web -->
+            <a href="/">Home</a>
+            <!-- o atributo "HREF" é especifica o destino do link:-->
+          </li>
+          <li>
+            <a href="/cadastro">Cadastro</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <section class="main-class-cadastro">
+        <!-- <form> Tag para fomulário  -->
+        <!-- "ACTION" É o atributo especifica para onde enviar os dados do formulário quando um formulário é enviado. -->
+        <form action="/receiveinfo" method="POST">
+          <h2>Cadastro do Pokémon</h2>
+          <section class="form-control">
+            <!-- "LABEL" Representa uma legenda para um item em uma interface de usuário -->
+            <label for="Foto: "></label>
+            <!-- "PLACEHOLDER" Especifica uma pequena dica que descreve o valor esperado de um campo de entrada -->
+            <input
+              type="text"
+              name="poke_photo"
+              id="photo"
+              placeholder="Cole a URL completa da imagem..."
+            />
+          </section>
+
+          <section class="form-control">
+            <label for="Nome: "></label>
+            <input
+              type="text"
+              name="poke_name"
+              id="name"
+              placeholder="Digite o nome do Pokémon"
+              required
+            />
+          </section>
+
+          <section class="form-control">
+            <label for="Número:"></label>
+            <input
+              type="text"
+              name="poke_number"
+              id="number"
+              placeholder="Digite o número do Pokémon"
+              required
+            />
+          </section>
+
+          <section class="form-control">
+            <label for="Tipo:"></label>
+            <input
+              type="text"
+              name="poke_type"
+              id="type"
+              placeholder="Digite o tipo do Pokémon"
+              required
+            />
+          </section>
+
+          <section class="form-control">
+            <label for="Categoria:"></label>
+            <input
+              type="text"
+              name="poke_category"
+              id="category"
+              placeholder="Adicione uma categoria ao Pokémon"
+              required
+            />
+          </section>
+
+          <section class="form-control">
+            <label for="Altura:"></label>
+            <input
+              type="text"
+              name="poke_height"
+              id="height"
+              placeholder="Digite a altura do Pokémon"
+              required
+            />
+          </section>
+
+          <section class="form-control">
+            <label for="Peso:"></label>
+            <input
+              type="text"
+              name="poke_category"
+              id="weight"
+              placeholder="Digite o peso do Pokémon"
+              required
+            />
+          </section>
+
+          <section class="form-control">
+            <label for="Descrição:"></label>
+            <input
+              type="text"
+              name="poke_description"
+              id="description"
+              placeholder="Adicione uma descrição ao Pokémon"
+              required
+            />
+          </section>
+
+          <button type="submit" class="button">Adicionar Pokémon</button>
+        </form>
+      </section>
+    </main>
+    <script src="/js/script.js"></script>
+  </body>
 </html>

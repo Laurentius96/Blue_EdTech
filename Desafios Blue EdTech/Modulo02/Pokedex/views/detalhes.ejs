@@ -1,12 +1,51 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/style.css" />
     <title>BlueEdTech: Projeto Pokédex</title>
-</head>
-<body>
-    
-</body>
+  </head>
+  <body>
+    <header>
+      <!--  <nav> É utilizado quando precisamos representar um agrupamento de links de navegação, que, por sua vez, são criados com os elementos <ul>, <li> e <a>. -->
+      <nav>
+        <!-- "SRC" é um atributo especifica a localização (URL) do recurso externo.src -->
+        <img
+          src="/img/pokedex.png"
+          class="img"
+          alt="Logo tradicional Pokédex"
+        />
+        <!-- <ul> É lista não ordenada -->
+        <ul>
+          <li>
+            <!-- <a>  Descrever um link, conectando os diversos documentos de um site e permitindo a navegação por esse conteúdo. Normalmente esses documentos estão relacionados por compartilharem um assunto em comum. É uma âncora: usado para ligar a outro recurso web -->
+            <a href="/">Home</a>
+            <!-- o atributo "HREF" é especifica o destino do link:-->
+          </li>
+          <li>
+            <a href="/cadastro">Cadastro</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <main class="index-detalhes">
+        <section class="wrapper-detalhes">
+            <article class="card_content-detalhes">
+                <img class="img" src="<%= poked.photo %>">
+                <p class="name"> Name: <%= poked.name %></p>
+                <p class="type"> Type: <%= poked.type %></p>
+                <p class="number"> Number: <%= poked.number %></p>
+                <p class="height">Height: <%= poked.height %></p>
+                <p class="weight"> Weight: <%= poked.weight %></p>
+                <p class="category"> Category: <%= poked.category %></p>
+                <p class="skill"> Skill: <%= poked.skill %></p>
+                <p class="description"> Description: <%= poked.description %></p>
+            </article>
+        </section>
+    </main>
+
+    <script src="/js/script.js"></script>
+  </body>
 </html>
