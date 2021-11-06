@@ -31,12 +31,9 @@
     </header>
     <main class="index">
       <%pokedex.forEach((pokedex,find) => {%>
-      <section class="ordem">
-        <article class="detalhes_carta">
-          <a>
-            href="http://"
-          </a>
-
+      <section class="ordem_pokemon">
+        <article class="apresentacao_pokemon">
+          <a href="/detalhes/<%= find"><img class="img" src="<%= pokemon.photo %>"> </a>
         </article>
       </section>
       <%})%>
