@@ -1,0 +1,41 @@
+header {
+    border-radius: 93px 93px 93px 93px;
+    -moz-border-radius: 93px 93px 93px 93px;
+    -webkit-border-radius: 93px 93px 93px 93px;
+    border: 0px solid #000000;
+
+
+}
+
+main {
+    border-radius: 93px 93px 93px 93px;
+    -moz-border-radius: 93px 93px 93px 93px;
+    -webkit-border-radius: 93px 93px 93px 93px;
+    border: 0px solid #000000;
+}
+
+header,
+main {
+    border-radius: 93px 93px 93px 93px;
+    -moz-border-radius: 93px 93px 93px 93px;
+    -webkit-border-radius: 93px 93px 93px 93px;
+    border: 0px solid #000000;
+    
+    background: linear-gradient(45deg, #C36A2D, #E2C275, #EADCA6, #FBFBFB);
+    background-size: 300% 300%;
+    animation: cor 15s ease infinite;
+}
+
+@keyframes cor {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
